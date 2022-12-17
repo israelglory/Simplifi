@@ -15,52 +15,69 @@ class HomeView extends StatelessWidget {
       builder: (controller) {
         return SafeArea(
           top: true,
-          child: Scaffold(
-              body: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    HomeHeader(
-                      title: 'Welcome back, ${controller.userData.firstName}',
-                      accountBalance: controller.noSimbolInUSFormat
-                          .format(controller.userData.accountBalance ?? 0),
-                    ),
-                    const AppHeightSizedBox(height: 24),
-                    Container(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: AppText(
-                        'Send money to friends',
-                        size: 20,
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w600,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await controller.finalUserData();
+            },
+            child: Scaffold(
+                body: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HomeHeader(
+                        title:
+                            'Welcome back, ${controller.userData.firstName ?? ''}',
+                        accountBalance: controller.noSimbolInUSFormat.format(
+                          controller.userData.accountBalance ?? 0,
+                        ),
+                        show: controller.show,
+                        accountNumber: controller.userData.accountNumber ??
+                            'not available',
+                        onObscure: () {
+                          controller.onObscure();
+                        },
+                        onhide: () {
+                          controller.onhide();
+                        },
+                        avatar: controller.userData.avatar ?? '',
                       ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      height: MediaQuery.of(context).size.height * 0.13,
-                      child: const BeneficiaryList(),
-                    ),
-                    //const AppHeightSizedBox(height: 8),
-                    Container(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: AppText(
-                        'Recent transactions',
-                        size: 20,
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w600,
+                      const AppHeightSizedBox(height: 24),
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: AppText(
+                          'Send money to friends',
+                          size: 20,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                    const AppHeightSizedBox(height: 24),
-                  ],
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        child: const BeneficiaryList(),
+                      ),
+                      //const AppHeightSizedBox(height: 8),
+                      Container(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: AppText(
+                          'Recent transactions',
+                          size: 20,
+                          color: AppColors.primaryColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const AppHeightSizedBox(height: 24),
+                    ],
+                  ),
                 ),
-              ),
-              const SliverToBoxAdapter(
-                child: TransactionList(),
-              )
-            ],
-          )),
+                const SliverToBoxAdapter(
+                  child: TransactionList(),
+                )
+              ],
+            )),
+          ),
         );
       },
     );
@@ -96,6 +113,7 @@ class TransactionList extends StatelessWidget {
     return ListView.separated(
       scrollDirection: Axis.vertical,
       itemCount: 10,
+      physics: const NeverScrollableScrollPhysics(),
       //physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       clipBehavior: Clip.none,

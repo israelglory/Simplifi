@@ -6,8 +6,20 @@ import 'package:simplifi/routes/exports.dart';
 class HomeHeader extends StatelessWidget {
   final String title;
   final String accountBalance;
+  final String accountNumber;
+  final String avatar;
+  final bool show;
+  final Function() onObscure;
+  final Function() onhide;
   const HomeHeader(
-      {Key? key, required this.title, required this.accountBalance})
+      {Key? key,
+      required this.title,
+      required this.accountBalance,
+      required this.show,
+      required this.onObscure,
+      required this.onhide,
+      required this.accountNumber,
+      required this.avatar})
       : super(key: key);
 
   @override
@@ -30,18 +42,18 @@ class HomeHeader extends StatelessWidget {
         left: 16.0,
         right: 16.0,
       ),
-      height: MediaQuery.of(context).size.height * 0.3,
+      height: MediaQuery.of(context).size.height * 0.25,
       width: double.infinity,
       child: Stack(
         children: [
           Positioned(
             top: 20.0,
             left: 20.0,
-            right: 10.0,
+            right: 20.0,
             child: Row(
               children: [
-                const CustomAvatar(
-                  url: '',
+                CustomAvatar(
+                  url: avatar,
                   height: 32,
                   width: 32,
                 ),
@@ -55,39 +67,49 @@ class HomeHeader extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 const Spacer(),
-                const Icon(
-                  Icons.more_vert,
-                  color: Colors.white,
-                ),
+                show == true
+                    ? InkWell(
+                        onTap: onObscure,
+                        child: const Icon(
+                          CupertinoIcons.eye_slash_fill,
+                          color: Colors.white,
+                        ))
+                    : InkWell(
+                        onTap: onhide,
+                        child: const Icon(
+                          CupertinoIcons.eye_fill,
+                          color: Colors.white,
+                        ),
+                      ),
               ],
             ),
           ),
           Positioned(
-            top: 0.0,
+            top: 20.0,
             right: 0.0,
             left: 0.0,
-            bottom: 16.0,
+            bottom: 0.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const AppText(
-                  'Available Balance',
-                  size: 18,
+                AppText(
+                  show == true ? 'Available Balance' : 'Account Number',
+                  size: 22,
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                 ),
                 const AppHeightSizedBox(height: 0),
                 AppText(
-                  accountBalance,
-                  size: 25,
+                  show == true ? accountBalance : accountNumber,
+                  size: 30,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
                 ),
               ],
             ),
           ),
-          Positioned(
+          /*Positioned(
             bottom: 10.0,
             left: 20.0,
             right: 20.0,
@@ -117,7 +139,7 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
         ],
       ),
     );

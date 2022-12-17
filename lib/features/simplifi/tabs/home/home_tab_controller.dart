@@ -6,12 +6,14 @@ import 'package:intl/intl.dart';
 class HomeController extends GetxController {
   UserAuth userAuth = UserAuth();
   UserModel userData = UserModel();
+  bool show = true;
   final noSimbolInUSFormat =
       NumberFormat.currency(locale: "en_US", symbol: "#");
 
   @override
   void onInit() async {
     await finalUserData();
+    update();
     super.onInit();
   }
 
@@ -30,5 +32,18 @@ class HomeController extends GetxController {
       userName: userinfo['userName'],
       accountBalance: userinfo['accountBalance'],
     );
+    update();
+  }
+
+  ///This is to hide the password
+  void onObscure() {
+    show = false;
+    update();
+  }
+
+  ///We use this function to show password
+  onhide() {
+    show = true;
+    update();
   }
 }

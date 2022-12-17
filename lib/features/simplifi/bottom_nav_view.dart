@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:simplifi/features/simplifi/bottom_nav_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 
@@ -17,7 +18,7 @@ class BottomNavigationView extends StatelessWidget {
             selectedFontSize: 14.0,
             unselectedFontSize: 14.0,
             enableFeedback: true,
-            unselectedItemColor: Colors.grey.shade400,
+            unselectedItemColor: Colors.grey,
             showSelectedLabels: true,
             showUnselectedLabels: true,
             selectedIconTheme: IconThemeData(
@@ -32,15 +33,15 @@ class BottomNavigationView extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.money,
+                  CupertinoIcons.rocket_fill,
                 ),
-                label: 'Payment',
+                label: 'Transfer',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.bar_chart_rounded,
+                  CupertinoIcons.device_phone_portrait,
                 ),
-                label: 'Budget',
+                label: 'Recharge',
               ),
               BottomNavigationBarItem(
                 icon: Icon(
@@ -50,9 +51,9 @@ class BottomNavigationView extends StatelessWidget {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.more_vert_rounded,
+                  Icons.person,
                 ),
-                label: 'More',
+                label: 'Profile',
               ),
             ],
             currentIndex: controller.selectedIndex,
