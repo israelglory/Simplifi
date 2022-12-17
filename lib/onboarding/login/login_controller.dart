@@ -28,7 +28,7 @@ class LoginController extends GetxController {
           'Email Cannot be empty',
           dismissDirection: DismissDirection.horizontal,
           colorText: Colors.white,
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.appRed,
           snackPosition: SnackPosition.TOP,
         );
       } else if (passController.text.isEmpty) {
@@ -37,7 +37,7 @@ class LoginController extends GetxController {
           'Password Cannot be empty',
           dismissDirection: DismissDirection.horizontal,
           colorText: Colors.white,
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.appRed,
           snackPosition: SnackPosition.TOP,
         );
       } else {
@@ -59,7 +59,7 @@ class LoginController extends GetxController {
         e.message!,
         colorText: Colors.white,
         dismissDirection: DismissDirection.horizontal,
-        backgroundColor: Colors.red,
+        backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
     }

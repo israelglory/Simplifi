@@ -106,11 +106,17 @@ class LoginView extends StatelessWidget {
                         controller.login();
                       },
                       color: AppColors.primaryColor,
-                      child: const AppText(
-                        'Login',
-                        color: Colors.white,
-                        size: 16,
-                        fontWeight: FontWeight.w500,
+                      child: Visibility(
+                        visible: !controller.inProgress,
+                        replacement: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        child: const AppText(
+                          'Login',
+                          color: Colors.white,
+                          size: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),

@@ -196,11 +196,17 @@ class SignUpView extends StatelessWidget {
                         controller.signUp();
                       },
                       color: AppColors.primaryColor,
-                      child: const AppText(
-                        'Sign up',
-                        color: Colors.white,
-                        size: 16,
-                        fontWeight: FontWeight.w500,
+                      child: Visibility(
+                        visible: !controller.inProgress,
+                        replacement: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        child: const AppText(
+                          'Sign up',
+                          color: Colors.white,
+                          size: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ),

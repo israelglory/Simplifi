@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class UserAuth {
@@ -62,5 +63,41 @@ class UserAuth {
       next *= 10;
     }
     return next.toInt();
+  }
+
+  Future<UserModel> userData() async {
+    final userinfo = await getUserData();
+
+    final user = UserModel(
+      accountNumber: userinfo['accountNumber'],
+      avatar: userinfo['avatar'],
+      email: userinfo['email'],
+      firstName: userinfo['firstName'],
+      lastName: userinfo['lastName'],
+      passWord: userinfo['passWord'],
+      pin: userinfo['pin'],
+      userName: userinfo['userName'],
+    );
+    return user;
+  }
+
+  Future<void> logOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  /// We can get user data through this function
+  Future getUserData() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    final userData = docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data();
+        return data;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+    return userData;
   }
 }

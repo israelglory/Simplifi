@@ -23,7 +23,7 @@ class SplashScreenController extends GetxController {
     );
 
     if (user != null) {
-      Get.offAndToNamed(RoutesClass.getBottomNavHomeRoute());
+      Get.offAndToNamed(RoutesClass.getReAuthRoute());
     } else {
       Get.offAndToNamed(RoutesClass.getIntroScreenRoute());
     }

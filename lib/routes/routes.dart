@@ -1,5 +1,6 @@
 import 'package:simplifi/features/pin/create_pin/create_pin_view.dart';
 import 'package:simplifi/features/pin/update_pin/update_pin_view.dart';
+import 'package:simplifi/features/re_auth/re_auth_view.dart';
 import 'package:simplifi/features/recharge_airtme/airtime_auth_pin/input_airtime_pin_view.dart';
 import 'package:simplifi/features/recharge_airtme/processing_airtime/processing_airtime_view.dart';
 import 'package:simplifi/features/recharge_airtme/receipt/airtime_receipt_view.dart';
@@ -26,6 +27,7 @@ class RoutesClass {
   // Authentication Routes
   static const String registerAccount = '/auth/register';
   static const String loginAccount = '/auth/login';
+  static const String reAuth = '/auth/reAuth';
 
   //home
   static const String home = '/home';
@@ -51,6 +53,7 @@ class RoutesClass {
   // Authentication Routes
   static String getRegisterRoute() => registerAccount;
   static String getLoginRoute() => loginAccount;
+  static String getReAuthRoute() => reAuth;
 
   //Splash Screen
   static String getSplashScreenRoute() => splashScreen;
@@ -88,6 +91,13 @@ class RoutesClass {
     GetPage(
       name: getLoginRoute(),
       page: () => const LoginView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
+      name: getReAuthRoute(),
+      page: () => const ReAuthView(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(seconds: 0, milliseconds: 400),
       curve: Curves.fastOutSlowIn,
