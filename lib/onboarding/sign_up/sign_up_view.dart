@@ -193,7 +193,7 @@ class SignUpView extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       radius: 8,
                       onPressed: () {
-                        Get.offAndToNamed(RoutesClass.getCreatePinRoute());
+                        controller.signUp();
                       },
                       color: AppColors.primaryColor,
                       child: const AppText(

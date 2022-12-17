@@ -8,6 +8,7 @@ import 'package:simplifi/features/simplifi/bottom_nav_view.dart';
 import 'package:simplifi/features/trensfer_money/processing_transfer/processing_transfer_view.dart';
 import 'package:simplifi/features/trensfer_money/receipt/transfer_receipt_view.dart';
 import 'package:simplifi/features/trensfer_money/transfer_money_view.dart';
+import 'package:simplifi/onboarding/login/login_view.dart';
 import 'package:simplifi/onboarding/sign_up/sign_up_view.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/splash/splash_screen.dart';
@@ -21,12 +22,12 @@ void main() async {
 
   runApp(
     //
-    DevicePreview(
+    /*DevicePreview(
       enabled: !kReleaseMode,
       builder: (context) => const MyApp(), // Wrap your app
-    ),
+    ),*/
 
-    //const MyApp(),
+    const MyApp(),
   );
 
   //

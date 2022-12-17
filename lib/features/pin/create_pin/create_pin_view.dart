@@ -45,7 +45,7 @@ class CreatePinView extends StatelessWidget {
                       print('Completed');
                       print(val);
                       print(controller.pinController.text);
-                      Get.offAndToNamed(RoutesClass.getBottomNavHomeRoute());
+                      controller.createPin(val);
                     }
                   },
                   enableActiveFill: false,

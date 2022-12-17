@@ -103,7 +103,7 @@ class LoginView extends StatelessWidget {
                       padding: const EdgeInsets.all(12.0),
                       radius: 8,
                       onPressed: () {
-                        Get.offAndToNamed(RoutesClass.getBottomNavHomeRoute());
+                        controller.login();
                       },
                       color: AppColors.primaryColor,
                       child: const AppText(

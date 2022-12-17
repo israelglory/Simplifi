@@ -3,6 +3,7 @@ import 'package:ezanimation/ezanimation.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class SplashScreenController extends GetxController {
+  final user = FirebaseAuth.instance.currentUser;
   EzAnimation ezAnimation =
       EzAnimation(200.0, 300.0, const Duration(seconds: 1));
 
@@ -11,11 +12,9 @@ class SplashScreenController extends GetxController {
     super.onInit();
     ezAnimation.start();
     update();
-
     await Future.delayed(
       const Duration(seconds: 3),
     );
-
     ezAnimation.reverse();
     update();
 
@@ -23,9 +22,19 @@ class SplashScreenController extends GetxController {
       const Duration(seconds: 3),
     );
 
+    if (user != null) {
+      Get.offAndToNamed(RoutesClass.getBottomNavHomeRoute());
+    } else {
+      Get.offAndToNamed(RoutesClass.getIntroScreenRoute());
+    }
+
+    await Future.delayed(
+      const Duration(seconds: 1),
+    );
+
     ezAnimation.reverse();
     update();
-    Get.offAndToNamed(RoutesClass.getIntroScreenRoute());
+
     ezAnimation.stop();
     update();
   }
