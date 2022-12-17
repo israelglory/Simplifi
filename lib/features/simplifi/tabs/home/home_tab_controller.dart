@@ -1,10 +1,13 @@
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
+import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   UserAuth userAuth = UserAuth();
   UserModel userData = UserModel();
+  final noSimbolInUSFormat =
+      NumberFormat.currency(locale: "en_US", symbol: "#");
 
   @override
   void onInit() async {
@@ -25,6 +28,7 @@ class HomeController extends GetxController {
       passWord: userinfo['passWord'],
       pin: userinfo['pin'],
       userName: userinfo['userName'],
+      accountBalance: userinfo['accountBalance'],
     );
   }
 }

@@ -53,6 +53,7 @@ dependencies:
   responsive_builder: ^0.4.3
   url_launcher: ^6.1.4
   firebase_core: ^2.4.0
+  intl:
   firebase_auth: ^4.2.1
   cloud_firestore: ^4.2.0
   table_calendar: ^3.0.7

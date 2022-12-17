@@ -5,6 +5,7 @@ class UserModel {
   final String? lastName;
   final String? pin;
   final String? accountNumber;
+  final int? accountBalance;
   final String? email;
   final String? userName;
   final String? passWord;
@@ -14,6 +15,7 @@ class UserModel {
       {this.firstName,
       this.lastName,
       this.pin,
+      this.accountBalance,
       this.accountNumber,
       this.email,
       this.userName,
@@ -30,6 +32,7 @@ class UserModel {
       passWord: map['passWord'],
       pin: map['pin'],
       userName: map['userName'],
+      accountBalance: map['accountBalance'],
     );
   }
 }

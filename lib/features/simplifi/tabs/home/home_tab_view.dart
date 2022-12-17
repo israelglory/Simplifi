@@ -22,8 +22,10 @@ class HomeView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const HomeHeader(
-                      title: 'Welcome back, Fidelis',
+                    HomeHeader(
+                      title: 'Welcome back, ${controller.userData.firstName}',
+                      accountBalance: controller.noSimbolInUSFormat
+                          .format(controller.userData.accountBalance ?? 0),
                     ),
                     const AppHeightSizedBox(height: 24),
                     Container(

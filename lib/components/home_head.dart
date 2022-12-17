@@ -5,7 +5,10 @@ import 'package:simplifi/routes/exports.dart';
 
 class HomeHeader extends StatelessWidget {
   final String title;
-  const HomeHeader({Key? key, required this.title}) : super(key: key);
+  final String accountBalance;
+  const HomeHeader(
+      {Key? key, required this.title, required this.accountBalance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +70,16 @@ class HomeHeader extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                AppText(
+              children: [
+                const AppText(
                   'Available Balance',
                   size: 18,
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                 ),
-                AppHeightSizedBox(height: 0),
+                const AppHeightSizedBox(height: 0),
                 AppText(
-                  '₦150,923.56',
+                  accountBalance,
                   size: 25,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
