@@ -1,6 +1,5 @@
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simplifi/components/screen_button.dart';
-import 'package:simplifi/features/pin/auth_pin/input_pin_cntroller.dart';
 import 'package:simplifi/features/pin/update_pin/update_pin_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:simplifi/components/custom_avatar.dart';
-import 'package:simplifi/components/feature_component.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class HomeHeader extends StatelessWidget {

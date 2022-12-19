@@ -19,8 +19,8 @@ class ComponentTest extends StatelessWidget {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Login',
                 ),
                 TransactionCard(),

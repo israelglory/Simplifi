@@ -3,7 +3,6 @@ import 'package:simplifi/routes/exports.dart';
 class InputPinController extends GetxController {
   TextEditingController pinController = TextEditingController();
   void onButtonClick(String number) {
-    print('clicked');
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(
         TextPosition(offset: pinController.text.length));
