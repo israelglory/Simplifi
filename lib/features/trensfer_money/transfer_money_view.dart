@@ -46,9 +46,47 @@ class TransferMoneyView extends StatelessWidget {
                     ),
                   ),
                   const AppHeightSizedBox(height: 16),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin:
+                              const EdgeInsets.only(left: 16.0, right: 16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.grey,
+                          ),
+                          child: DropdownButton(
+                            items: controller.listOfbanks.map((e) {
+                              return DropdownMenuItem(
+                                alignment: AlignmentDirectional.center,
+                                value: e,
+                                child: AppText(
+                                  e.name,
+                                  color: Colors.black,
+                                  size: 20,
+                                ),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              controller.selectBank(value);
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const AppHeightSizedBox(height: 16),
                   AppFormTextField(
                     textEditingController: controller.accountNumber,
                     formText: 'Account Number',
+                    onChanged: (val) {
+                      if (val.length == 10) {
+                        controller.getBankDetails();
+                      }
+                    },
                     hintText: '0123456789',
                     textInputType: TextInputType.number,
                     maxLines: 1,
@@ -56,6 +94,14 @@ class TransferMoneyView extends StatelessWidget {
                     borderColor: AppColors.transBlack,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
+                  ),
+                  const AppHeightSizedBox(height: 4),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: AppText(
+                      controller.bankDetails.accountName ?? '',
+                      size: 15,
+                    ),
                   ),
                   const AppHeightSizedBox(height: 16),
                   AppFormTextField(

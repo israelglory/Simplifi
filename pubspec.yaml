@@ -59,6 +59,7 @@ dependencies:
   table_calendar: ^3.0.7
   device_preview: ^1.1.0
   cached_network_image: ^3.2.3
+  dio: ^4.0.6
   
 
 dev_dependencies:

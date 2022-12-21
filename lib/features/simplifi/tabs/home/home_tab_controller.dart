@@ -1,11 +1,14 @@
+import 'package:simplifi/models/banking/bank_list.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
+import 'package:simplifi/services/api_services/bank_list_service.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
   UserAuth userAuth = UserAuth();
   UserModel userData = UserModel();
+
   bool show = true;
   final noSimbolInUSFormat =
       NumberFormat.currency(locale: "en_US", symbol: "#");
@@ -13,6 +16,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     await finalUserData();
+
     update();
     super.onInit();
   }
