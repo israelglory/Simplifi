@@ -3,7 +3,7 @@ import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
 
-class InputTranserPinController extends GetxController {
+class SimplifiInputTranserPinController extends GetxController {
   TextEditingController pinController = TextEditingController();
   final transaction = Get.arguments as TransferTransactionModel;
   UserAuth userAuth = UserAuth();
@@ -46,7 +46,7 @@ class InputTranserPinController extends GetxController {
       pinController.clear();
       update();
     } else {
-      Get.offAndToNamed(RoutesClass.getProcessTransferRoute(),
+      Get.offAndToNamed(RoutesClass.getSimplifiProcessTransferRoute(),
           arguments: transaction);
     }
   }

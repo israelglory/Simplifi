@@ -1,15 +1,23 @@
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
+import 'package:jiffy/jiffy.dart';
 
 class TransferReceipt extends StatelessWidget {
-  const TransferReceipt({Key? key}) : super(key: key);
+  final TransferTransactionModel receipt;
+  const TransferReceipt({Key? key, required this.receipt}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateNow = DateTime.now();
+    final date = Jiffy(dateNow).format('dd-MM-yyyy');
     return Container(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Column(
         children: [
-          receiptRow(title: 'Transaction date:', value: '01 Nov, 2022'),
+          receiptRow(
+            title: 'Transaction date:',
+            value: date,
+          ),
           const SizedBox(
             height: 16,
           ),
@@ -22,50 +30,47 @@ class TransferReceipt extends StatelessWidget {
           ),
           receiptRow(
             title: 'Sender:',
-            value: 'Fidelis Omoroighe',
+            value: receipt.sender!,
           ),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Amount',
-            value: '₦10,000',
+            value: receipt.amount.toString(),
           ),
           const SizedBox(
             height: 16,
           ),
-          receiptRow(
-            title: 'Receiver:',
-            value: 'Bolarinwa Akorede',
-          ),
+          receiptRow(title: 'Receiver:', value: receipt.receiver!),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Bank name:',
-            value: 'Kuda MFB',
+            value: receipt.bankName!,
           ),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Account number:',
-            value: '0123456789',
+            value: receipt.accountNumber!,
           ),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Description:',
-            value: 'For goods',
+            value: receipt.description!,
           ),
-          const SizedBox(
+          /*const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Reference number',
-            value: 'REF20221101235600',
-          ),
+            value: receipt.referenceNumber!,
+          ),*/
         ],
       ),
     );

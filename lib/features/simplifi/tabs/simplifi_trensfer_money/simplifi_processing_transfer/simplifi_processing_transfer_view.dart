@@ -1,13 +1,14 @@
-import 'package:simplifi/features/trensfer_money/processing_transfer/processing_transfer_controller.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_processing_transfer/simplifi_processing_transfer_controller.dart';
+
 import 'package:simplifi/routes/exports.dart';
 
-class ProcessTransferView extends StatelessWidget {
-  const ProcessTransferView({Key? key}) : super(key: key);
+class SimplifiProcessTransferView extends StatelessWidget {
+  const SimplifiProcessTransferView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ProcessTransferController>(
-      init: ProcessTransferController(),
+    return GetBuilder<SimplifiProcessTransferController>(
+      init: SimplifiProcessTransferController(),
       builder: (controller) {
         return Scaffold(
           body: Center(
@@ -66,7 +67,7 @@ class ProcessTransferView extends StatelessWidget {
                           radius: 8,
                           onPressed: () {
                             Get.offAndToNamed(
-                                RoutesClass.getTransferReceiptRoute(),
+                                RoutesClass.getSimplifiTransferReceiptRoute(),
                                 arguments: controller.transaction);
                           },
                           color: AppColors.primaryColor,

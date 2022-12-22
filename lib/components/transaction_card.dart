@@ -1,8 +1,13 @@
 import 'package:simplifi/components/custom_avatar.dart';
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard({Key? key}) : super(key: key);
+  final TransferTransactionModel transaction;
+  final bool isDebit;
+  const TransactionCard(
+      {Key? key, required this.transaction, required this.isDebit})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +19,7 @@ class TransactionCard extends StatelessWidget {
       child: Row(
         children: [
           const CustomAvatar(
-            url:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/GTBank_logo.svg/120px-GTBank_logo.svg.png?20210128021936',
+            url: 'https://static.thenounproject.com/png/407799-200.png',
             height: 42,
             width: 42,
           ),
@@ -26,27 +30,27 @@ class TransactionCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 AppText(
-                  'Boma Daudu',
+                  transaction.receiver!,
                   fontWeight: FontWeight.w600,
                   size: 14,
                 ),
-                AppHeightSizedBox(
+                const AppHeightSizedBox(
                   height: 2,
                 ),
                 AppText(
-                  '08:33 AM',
+                  transaction.transactionDate!,
                   fontWeight: FontWeight.w400,
                   size: 12,
                 )
               ],
             ),
           ),
-          const AppText(
-            '+₦30,000',
+          AppText(
+            '${isDebit ? '-' : '+'}₦${transaction.amount}',
             fontWeight: FontWeight.w600,
-            color: Colors.green,
+            color: isDebit ? Colors.red : Colors.green,
             size: 14,
           )
         ],

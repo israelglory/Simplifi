@@ -2,7 +2,6 @@
 //
 //     final bankDetail = bankDetailFromMap(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 BankDetail bankDetailFromMap(String str) =>

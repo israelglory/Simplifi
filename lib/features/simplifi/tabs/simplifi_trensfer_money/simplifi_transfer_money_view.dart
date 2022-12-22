@@ -1,15 +1,15 @@
 import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/page_title_card.dart';
-import 'package:simplifi/features/trensfer_money/transfer_money_controller.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_money_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 
-class TransferMoneyView extends StatelessWidget {
-  const TransferMoneyView({Key? key}) : super(key: key);
+class SimplifiTransferMoneyView extends StatelessWidget {
+  const SimplifiTransferMoneyView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TransferMoneyController>(
-      init: TransferMoneyController(),
+    return GetBuilder<SimplifiTransferMoneyController>(
+      init: SimplifiTransferMoneyController(),
       builder: (controller) {
         return Scaffold(
           body: SafeArea(
@@ -19,7 +19,7 @@ class TransferMoneyView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const PageTitleCard(
-                    title: 'Transfer Money',
+                    title: 'Simplifi to Simplifi Transfer',
                   ),
                   const AppHeightSizedBox(height: 32),
                   Container(
@@ -46,38 +46,13 @@ class TransferMoneyView extends StatelessWidget {
                     ),
                   ),
                   const AppHeightSizedBox(height: 16),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        AppText(
-                          controller.selectedBank.name,
-                          size: 20,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            controller.bottomBankSelection();
-                          },
-                          child: const AppText(
-                            'Select Bank',
-                            size: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   const AppHeightSizedBox(height: 16),
                   AppFormTextField(
                     textEditingController: controller.accountNumber,
                     formText: 'Account Number',
                     onChanged: (val) {
                       if (val.length == 10) {
-                        controller.getBankDetails();
+                        controller.resolveAccount();
                       }
                     },
                     hintText: '0123456789',

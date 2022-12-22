@@ -2,6 +2,7 @@ import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/home_head.dart';
 import 'package:simplifi/components/transaction_card.dart';
 import 'package:simplifi/features/simplifi/tabs/home/home_tab_controller.dart';
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class HomeView extends StatelessWidget {
@@ -26,6 +27,7 @@ class HomeView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const AppHeightSizedBox(height: 16),
                       HomeHeader(
                         title:
                             'Welcome back, ${controller.userData.firstName ?? ''}',
@@ -72,9 +74,63 @@ class HomeView extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SliverToBoxAdapter(
-                  child: TransactionList(),
-                )
+                SliverToBoxAdapter(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: controller.getStreamFireStore(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        controller.transactionList = snapshot.data!.docs;
+                        print(controller.transactionList.length);
+                        //print(snapshot.data!.docs.first);
+                        if (controller.transactionList.length > 0) {
+                          return ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(0),
+                            itemBuilder: (context, index) {
+                              TransferTransactionModel transaction =
+                                  TransferTransactionModel.fromFirestore(
+                                      snapshot.data!.docs[index]);
+                              bool debit =
+                                  transaction.transactionState == 'debit';
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                      RoutesClass.getTransferReceiptRoute(),
+                                      arguments: transaction);
+                                },
+                                child: TransactionCard(
+                                  isDebit: debit,
+                                  transaction: transaction,
+                                ),
+                              );
+                            },
+                            itemCount: snapshot.data!.docs.length,
+                            reverse: false,
+                            controller: controller.listScrollController,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 20,
+                              );
+                            },
+                          );
+                        } else {
+                          return const Center(
+                            child: Text(
+                              'No Transaction sent yet',
+                            ),
+                          );
+                        }
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
+                  ),
+                ),
               ],
             )),
           ),
@@ -105,24 +161,48 @@ class BeneficiaryList extends StatelessWidget {
   }
 }
 
-class TransactionList extends StatelessWidget {
+/*class TransactionList extends StatelessWidget {
   const TransactionList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.vertical,
-      itemCount: 10,
-      physics: const NeverScrollableScrollPhysics(),
-      //physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      clipBehavior: Clip.none,
-      itemBuilder: (context, index) {
-        return const TransactionCard();
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(height: 25);
+    return StreamBuilder<QuerySnapshot>(
+      stream: controller.getStreamFireStore(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData) {
+          controller.joblists = snapshot.data!.docs;
+          if (controller.joblists.length > 0) {
+            return ListView.separated(
+              padding: const EdgeInsets.all(0),
+              itemBuilder: (context, index) {
+                TransferTransactionModel transaction =
+                    TransferTransactionModel.fromFirestore(
+                        snapshot.data!.docs[index]);
+                bool debit = transaction.transactionState == 'debit';
+                return TransactionCard();
+              },
+              itemCount: snapshot.data!.docs.length,
+              reverse: false,
+              controller: controller.listScrollController,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  height: 20,
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: Text(
+                'No Proposal sent yet',
+              ),
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }
-}
+}*/

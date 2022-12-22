@@ -2,8 +2,6 @@
 //
 //     final bankList = bankListFromMap(jsonString);
 
-import 'package:meta/meta.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 BankList bankListFromMap(String str) => BankList.fromMap(json.decode(str));

@@ -8,7 +8,7 @@ import 'package:simplifi/services/api_services/bank_detail_service.dart';
 import 'package:simplifi/services/api_services/bank_list_service.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
 
-class TransferMoneyController extends GetxController {
+class SimplifiTransferMoneyController extends GetxController {
   TextEditingController accountNumber = TextEditingController();
   TextEditingController bankName = TextEditingController();
   TextEditingController amount = TextEditingController();
@@ -16,71 +16,49 @@ class TransferMoneyController extends GetxController {
   String accName = '';
   UserModel userData = UserModel();
   UserAuth userAuth = UserAuth();
-
-  List<Datum> listOfbanks = [];
-  BankListApi bankApi = BankListApi();
-  BankDetailAPI bankDetailAPI = BankDetailAPI();
-  Data bankDetails = Data();
-  late Datum selectedBank;
+  String receiverUid = '';
 
   @override
   void onInit() async {
-    await getBanks();
     await finalUserData();
     update();
     super.onInit();
   }
 
-  Future<void> getBanks() async {
-    await bankApi.fetchBank();
-    listOfbanks = bankApi.listOfbanks;
-    selectedBank = listOfbanks[1];
-    update();
-  }
+  Future<void> resolveAccount() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('accounts')
+        .doc(accountNumber.text);
+    final userinfo = await getAccountDetailsData();
+    //var receiverAccountBalance = userinfo['accountNumber'];
+    var rUid = userinfo['uid'];
+    var receiverFirstName = userinfo['firstName'];
+    var receiverLastName = userinfo['lastName'];
 
-  void bottomBankSelection() {
-    Get.bottomSheet(
-      Container(
-        padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-        color: Colors.white,
-        height: 400,
-        child: ListView.separated(
-            itemBuilder: (context, index) {
-              return InkWell(
-                  onTap: () {
-                    selectedBank = listOfbanks[index];
-                    update();
-                    Get.back();
-                  },
-                  child: AppText(
-                    listOfbanks[index].name,
-                    size: 22,
-                  ));
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(
-                height: 16.0,
-              );
-            },
-            itemCount: listOfbanks.length),
-      ),
-      enableDrag: true,
-      backgroundColor: Colors.white,
-    );
-  }
-
-  void getBankDetails() async {
-    try {
-      await bankDetailAPI.fetchBankDetails(
-          accountNumber: accountNumber.text, bankCode: selectedBank.code);
-      bankDetails = bankDetailAPI.bankDetails;
-      accName = bankDetails.accountName!;
+    DocumentSnapshot snap = await docRef.get();
+    if (snap.exists) {
+      accName = '$receiverFirstName $receiverLastName';
+      receiverUid = rUid;
       update();
-    } on Exception catch (e) {
+    } else {
       accName = 'Invalid Account';
-      print(e);
       update();
     }
+  }
+
+  Future getAccountDetailsData() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('accounts')
+        .doc(accountNumber.text);
+
+    final userData = docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data();
+        return data;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+    return userData;
   }
 
   void onTransferMoney() {
@@ -104,6 +82,15 @@ class TransferMoneyController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       update();
+    } else if (accountNumber.text == userData.accountNumber!) {
+      Get.snackbar(
+        "Error",
+        'You cannot send money to yourself',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
     } else {
       Get.defaultDialog(
         title: '',
@@ -117,19 +104,19 @@ class TransferMoneyController extends GetxController {
             sender: '${userData.firstName} ${userData.lastName}',
             accountNumber: accountNumber.text,
             amount: int.parse(amount.text),
-            bankName: selectedBank.name,
-            receiver: bankDetails.accountName,
+            bankName: 'Simplifi',
+            receiver: accName,
             description: description.text,
           ),
           onPressed: () {
             Get.toNamed(
-              RoutesClass.getInputTransferPinRoute(),
+              RoutesClass.getInputSimplifiTransferPinRoute(),
               arguments: TransferTransactionModel(
                 sender: '${userData.firstName} ${userData.lastName}',
                 accountNumber: accountNumber.text,
                 amount: int.parse(amount.text),
-                bankName: selectedBank.name,
-                receiver: bankDetails.accountName,
+                bankName: 'Simplifi',
+                receiver: accName,
                 description: description.text,
               ),
             );

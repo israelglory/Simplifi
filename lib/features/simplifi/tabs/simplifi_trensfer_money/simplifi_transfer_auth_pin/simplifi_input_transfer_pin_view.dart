@@ -1,35 +1,24 @@
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:simplifi/components/screen_button.dart';
-import 'package:simplifi/features/re_auth/re_auth_controller.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_auth_pin/simplifi_input_transfer_pin_cntroller.dart';
+
 import 'package:simplifi/routes/exports.dart';
 
-class ReAuthView extends StatelessWidget {
-  const ReAuthView({Key? key}) : super(key: key);
+class SimplifiInputTransferPinView extends StatelessWidget {
+  const SimplifiInputTransferPinView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<ReAuthController>(
-      init: ReAuthController(),
+    return GetBuilder<SimplifiInputTranserPinController>(
+      init: SimplifiInputTranserPinController(),
       builder: (controller) {
         return Scaffold(
             body: SafeArea(
           top: true,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            //mainAxisSize: MainAxisSize.min,
             children: [
-              AppText(
-                'Welcome ${controller.userData.firstName}',
-                size: 30,
-                alignment: TextAlign.left,
-                maxLines: 2,
-                color: AppColors.primaryColor,
-                overflow: TextOverflow.ellipsis,
-                fontWeight: FontWeight.w600,
-              ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.1,
               ),
               AppText(
                 'Enter Your Pin',
@@ -41,7 +30,7 @@ class ReAuthView extends StatelessWidget {
                 fontWeight: FontWeight.w300,
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0, right: 16.0),
@@ -61,7 +50,6 @@ class ReAuthView extends StatelessWidget {
                         const Duration(seconds: 1),
                       );
                       controller.onCompleted(val);
-                      controller.pinController.clear();
                     }
                   },
                   enableActiveFill: false,
@@ -81,6 +69,9 @@ class ReAuthView extends StatelessWidget {
                     selectedColor: AppColors.primaryColor,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,35 +172,7 @@ class ReAuthView extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppText(
-                    'Not ${controller.userData.firstName}?',
-                    size: 20,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      controller.logOut();
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                      child: AppText(
-                        'Log Out',
-                        size: 20,
-                        color: AppColors.primaryColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              )
             ],
           ),
         ));

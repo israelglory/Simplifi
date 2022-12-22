@@ -1,9 +1,14 @@
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class TransferConfirmationDialog extends StatelessWidget {
   final Function() onPressed;
-  const TransferConfirmationDialog({Key? key, required this.onPressed})
-      : super(key: key);
+  final TransferTransactionModel receipt;
+  const TransferConfirmationDialog({
+    Key? key,
+    required this.onPressed,
+    required this.receipt,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +34,7 @@ class TransferConfirmationDialog extends StatelessWidget {
             height: 20,
           ),
           AppText(
-            'Transfer ₦10,000 to',
+            'Transfer ₦${receipt.amount} to',
             color: AppColors.primaryColor,
             size: 16,
             alignment: TextAlign.center,
@@ -40,7 +45,7 @@ class TransferConfirmationDialog extends StatelessWidget {
             height: 16,
           ),
           AppText(
-            'Bolarinwa Akorede -  0123456789 Kuda MFB?',
+            '${receipt.receiver} -  ${receipt.accountNumber} ${receipt.bankName}?',
             alignment: TextAlign.center,
             maxLines: 3,
             color: AppColors.primaryColor,

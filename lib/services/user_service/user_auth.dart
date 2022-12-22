@@ -18,7 +18,7 @@ class UserAuth {
   }) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
-
+    final accountNumber = getaccountNumber().toString();
     await _firestore
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -29,7 +29,14 @@ class UserAuth {
       'avatar': avatar,
       'email': email,
       'passWord': password,
+      'accountNumber': accountNumber,
     });
+    await accountSetting(
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      accountNumber: accountNumber,
+    );
   }
 
   /// User can login with Email and password by providing the email and pass word that have already been created.
@@ -52,11 +59,26 @@ class UserAuth {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .update({
       'pin': pin,
-      'accountNumber': accountNumber().toString(),
     });
   }
 
-  int accountNumber() {
+  ///Registering with Email is done here in this function. Passing the required parameter will sign user up in the application.
+  Future<void> accountSetting({
+    required String email,
+    required String firstName,
+    required String lastName,
+    required String accountNumber,
+  }) async {
+    await _firestore.collection('accounts').doc(accountNumber).set({
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+      'accountNumber': accountNumber,
+      'uid': FirebaseAuth.instance.currentUser!.uid,
+    });
+  }
+
+  int getaccountNumber() {
     var rnd = math.Random();
     var next = rnd.nextDouble() * 10000000000;
     while (next < 1000000000) {

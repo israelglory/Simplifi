@@ -40,12 +40,15 @@ class InputTransferPinView extends StatelessWidget {
                   obscureText: true,
                   keyboardType: TextInputType.none,
                   cursorColor: AppColors.primaryColor,
-                  onChanged: (val) {
+                  onChanged: (val) async {
                     if (val.length == 4) {
                       print('Completed');
                       print(val);
                       print(controller.pinController.text);
-                      Get.offAndToNamed(RoutesClass.getProcessTransferRoute());
+                      await Future.delayed(
+                        const Duration(seconds: 1),
+                      );
+                      controller.onCompleted(val);
                     }
                   },
                   enableActiveFill: false,

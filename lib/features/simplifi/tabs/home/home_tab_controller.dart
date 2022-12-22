@@ -1,7 +1,5 @@
-import 'package:simplifi/models/banking/bank_list.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
-import 'package:simplifi/services/api_services/bank_list_service.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
 import 'package:intl/intl.dart';
 
@@ -12,13 +10,34 @@ class HomeController extends GetxController {
   bool show = true;
   final noSimbolInUSFormat =
       NumberFormat.currency(locale: "en_US", symbol: "#");
+  List<QueryDocumentSnapshot> transactionList = [];
+  int limit = 20;
+  int limitIncrement = 20;
+  final ScrollController listScrollController = ScrollController();
 
   @override
   void onInit() async {
     await finalUserData();
-
+    listScrollController.addListener(scrollListener);
     update();
     super.onInit();
+  }
+
+  void scrollListener() {
+    if (listScrollController.offset >=
+            listScrollController.position.maxScrollExtent &&
+        !listScrollController.position.outOfRange) {
+      limit += limitIncrement;
+      update();
+    }
+  }
+
+  Stream<QuerySnapshot> getStreamFireStore() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('transactions')
+        .snapshots();
   }
 
   Future<void> finalUserData() async {

@@ -1,11 +1,11 @@
 import 'package:ezanimation/ezanimation.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
-import 'package:simplifi/services/transaction_services/send_transfer_transaction.dart';
+import 'package:simplifi/services/transaction_services/internal_transfer_services.dart';
 
-class ProcessTransferController extends GetxController
+class SimplifiProcessTransferController extends GetxController
     with GetTickerProviderStateMixin {
-  SendTransferTransaction transfer = SendTransferTransaction();
+  InternalTransferService transfer = InternalTransferService();
   final transaction = Get.arguments as TransferTransactionModel;
   EzAnimation ezAnimation =
       EzAnimation(200.0, 300.0, const Duration(seconds: 1));
@@ -46,13 +46,15 @@ class ProcessTransferController extends GetxController
 
   Future<void> sendMoney() async {
     try {
-      await transfer.sendTransfer(
+      final userinfo = await getAccountDetailsData();
+      var rUid = userinfo['uid'];
+      await transfer.onInternalTransfer(
           sender: transaction.sender!,
           amount: transaction.amount!,
           receiver: transaction.receiver!,
-          bankName: transaction.bankName!,
           accountNumber: transaction.accountNumber!,
-          description: transaction.description!);
+          description: transaction.description!,
+          receiverid: rUid);
     } on FirebaseException catch (e) {
       Get.snackbar(
         "Error",
@@ -63,5 +65,20 @@ class ProcessTransferController extends GetxController
         snackPosition: SnackPosition.TOP,
       );
     }
+  }
+
+  Future getAccountDetailsData() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('accounts')
+        .doc(transaction.accountNumber);
+
+    final userData = docRef.get().then(
+      (DocumentSnapshot doc) {
+        final data = doc.data();
+        return data;
+      },
+      onError: (e) => print("Error getting document: $e"),
+    );
+    return userData;
   }
 }

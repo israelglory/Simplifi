@@ -1,15 +1,15 @@
 import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/components/transfer_receipt_component.dart';
-import 'package:simplifi/features/trensfer_money/receipt/transfer_receipt_controller.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_receipt/simplifi_transfer_receipt_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 
-class TransferReceiptView extends StatelessWidget {
-  const TransferReceiptView({Key? key}) : super(key: key);
+class SimplifiTransferReceiptView extends StatelessWidget {
+  const SimplifiTransferReceiptView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<TransferReceiptController>(
-      init: TransferReceiptController(),
+    return GetBuilder<SimplifiTransferReceiptController>(
+      init: SimplifiTransferReceiptController(),
       builder: (controller) {
         return Scaffold(
           body: SafeArea(

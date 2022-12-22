@@ -7,6 +7,10 @@ import 'package:simplifi/features/recharge_airtme/receipt/airtime_receipt_view.d
 import 'package:simplifi/features/recharge_airtme/recharge_airtime_view.dart';
 import 'package:simplifi/features/simplifi/bottom_nav_view.dart';
 import 'package:simplifi/features/simplifi/tabs/home/home_tab_view.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_processing_transfer/simplifi_processing_transfer_view.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_receipt/simplifi_transfer_receipt_view.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_auth_pin/simplifi_input_transfer_pin_view.dart';
+import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_money_view.dart';
 import 'package:simplifi/features/trensfer_money/processing_transfer/processing_transfer_view.dart';
 import 'package:simplifi/features/trensfer_money/receipt/transfer_receipt_view.dart';
 import 'package:simplifi/features/trensfer_money/transfer_auth_pin/input_transfer_pin_view.dart';
@@ -42,11 +46,18 @@ class RoutesClass {
   static const String rechargeAirtime = '/feature/rechargeAirtime';
   static const String processAirtime = '/feature/processAirtime';
   static const String airtimeReceipt = '/feature/airtimeReceipt';
+  static const String simplifiTransferMoney = '/feature/sinplifiTransferMoney';
+  static const String simplifiProcessTransfer =
+      '/feature/simplifiProcessTransfer';
+  static const String simplifiTransferReceipt =
+      '/feature/simplifiTransferReceipt';
 
   //Pin
   static const String createPin = '/feature/createPin';
   static const String updatePin = '/feature/updatePin';
   static const String inputTransferPin = '/feature/inputTransferPin';
+  static const String inputSimplifiTransferPin =
+      '/feature/inputSimplifiTransferPin';
   static const String inputAirtimePin = '/feature/inputAirtimePin';
 
   // GETTERS
@@ -71,11 +82,15 @@ class RoutesClass {
   static String getRechargeAirtimeRoute() => rechargeAirtime;
   static String getProcessAirtimeRoute() => processAirtime;
   static String getAirtimeReceiptRoute() => airtimeReceipt;
+  static String getSimplifiTransferMoneyRoute() => simplifiTransferMoney;
+  static String getSimplifiProcessTransferRoute() => simplifiProcessTransfer;
+  static String getSimplifiTransferReceiptRoute() => simplifiTransferReceipt;
 
   //Pin
   static String getCreatePinRoute() => createPin;
   static String getUpdatePinRoute() => updatePin;
   static String getInputTransferPinRoute() => inputTransferPin;
+  static String getInputSimplifiTransferPinRoute() => inputSimplifiTransferPin;
   static String getInputAirtimePinRoute() => inputAirtimePin;
 
   // ROUTING FUNCTION
@@ -140,6 +155,13 @@ class RoutesClass {
       curve: Curves.fastOutSlowIn,
     ),
     GetPage(
+      name: getSimplifiTransferMoneyRoute(),
+      page: () => const SimplifiTransferMoneyView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
       name: getRechargeAirtimeRoute(),
       page: () => const RechargeAirtimeView(),
       transition: Transition.fadeIn,
@@ -169,6 +191,13 @@ class RoutesClass {
       curve: Curves.fastOutSlowIn,
     ),
     GetPage(
+      name: getInputSimplifiTransferPinRoute(),
+      page: () => const SimplifiInputTransferPinView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
       name: getInputAirtimePinRoute(),
       page: () => const InputAirtimePinView(),
       transition: Transition.fadeIn,
@@ -187,6 +216,20 @@ class RoutesClass {
     GetPage(
       name: getTransferReceiptRoute(),
       page: () => const TransferReceiptView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
+      name: getSimplifiProcessTransferRoute(),
+      page: () => const SimplifiProcessTransferView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
+      name: getSimplifiTransferReceiptRoute(),
+      page: () => const SimplifiTransferReceiptView(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(seconds: 0, milliseconds: 400),
       curve: Curves.fastOutSlowIn,
