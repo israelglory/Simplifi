@@ -19,6 +19,7 @@ class SimplifiTransferMoneyView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const AppHeightSizedBox(height: 16),
                   const PageTitleCard(
                     title: 'Simplifi to Simplifi Transfer',
                   ),
@@ -56,7 +57,7 @@ class SimplifiTransferMoneyView extends StatelessWidget {
                     onChanged: (val) {
                       if (val.length == 10) {
                         controller.resolveAccount();
-                      } else if (val.length > 10) {
+                      } else if (val.length < 10) {
                         controller.resetAccName();
                       }
                     },

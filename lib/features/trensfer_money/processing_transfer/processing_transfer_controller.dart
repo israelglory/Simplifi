@@ -61,6 +61,15 @@ class ProcessTransferController extends GetxController
         bankLogo: bankLogo,
         bankCode: transaction.bankCode!,
       );
+      Get.snackbar(
+        "Success",
+        'Successfully added as beneficiary',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        duration: const Duration(seconds: 5),
+        backgroundColor: AppColors.primaryColor,
+        snackPosition: SnackPosition.TOP,
+      );
       inProgress = false;
       update();
     } on FirebaseException catch (e) {

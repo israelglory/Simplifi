@@ -126,6 +126,8 @@ class SimplifiTransferMoneyController extends GetxController {
                 description: description.text,
               ),
             );
+            //Get.back();
+            //clearAllText();
           },
         ),
       );
@@ -152,11 +154,16 @@ class SimplifiTransferMoneyController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+    clearAllText();
+    print('Disposed');
+  }
+
+  void clearAllText() {
     accountNumber.clear();
     bankName.clear();
     description.clear();
     amount.clear();
-    print('Disposed');
+    update();
   }
 
   Stream<QuerySnapshot> getBeneficiaryFireStore() {
@@ -165,8 +172,8 @@ class SimplifiTransferMoneyController extends GetxController {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('beneficiary')
         .where(
-          'bankCode',
-          isEqualTo: '',
+          'bankName',
+          isEqualTo: 'Simplifi',
         )
         .snapshots();
   }

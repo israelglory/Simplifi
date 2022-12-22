@@ -77,12 +77,21 @@ class SimplifiProcessTransferController extends GetxController
     try {
       inProgress = true;
       update();
-      await beneficiaryService.addTransferBeneficiary(
-        bankName: transaction.bankName!,
+      await beneficiaryService.addSimplifiTransferBeneficiary(
+        bankName: 'Simplifi',
         accountNumber: transaction.accountNumber!,
         fullName: transaction.receiver!,
         bankLogo: bankImage,
         bankCode: '',
+      );
+      Get.snackbar(
+        "Success",
+        'Successfully added as beneficiary',
+        duration: const Duration(seconds: 5),
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.primaryColor,
+        snackPosition: SnackPosition.TOP,
       );
       inProgress = false;
       update();

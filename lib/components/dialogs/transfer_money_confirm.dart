@@ -64,7 +64,9 @@ class TransferConfirmationDialog extends StatelessWidget {
                 color: AppColors.appRed,
                 padding: const EdgeInsets.all(12.0),
                 width: 100,
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
                 child: const AppText(
                   'No',
                   color: Colors.white,

@@ -48,8 +48,17 @@ class ProcessAirtimeController extends GetxController {
       await beneficiaryService.addAirtimeBeneficiary(
         bankName: transaction.bankName!,
         accountNumber: transaction.accountNumber!,
-        fullName: transaction.receiver!,
+        fullName: '',
         bankLogo: bankImage,
+      );
+      Get.snackbar(
+        "Success",
+        'Successfully added as beneficiary',
+        colorText: Colors.white,
+        duration: const Duration(seconds: 5),
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.primaryColor,
+        snackPosition: SnackPosition.TOP,
       );
       inProgress = false;
       update();

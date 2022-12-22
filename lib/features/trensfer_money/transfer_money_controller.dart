@@ -153,6 +153,8 @@ class TransferMoneyController extends GetxController {
                 bankCode: selectedBank.code,
               ),
             );
+            //Get.back();
+            //clearAllText();
           },
         ),
       );
@@ -186,14 +188,22 @@ class TransferMoneyController extends GetxController {
     print('Disposed');
   }
 
+  void clearAllText() {
+    accountNumber.clear();
+    bankName.clear();
+    description.clear();
+    amount.clear();
+    update();
+  }
+
   Stream<QuerySnapshot> getBeneficiaryFireStore() {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('beneficiary')
         .where(
-          'transactionType',
-          isEqualTo: 'Money Transfer',
+          'bankCode',
+          isNotEqualTo: '',
         )
         .snapshots();
   }

@@ -1,3 +1,4 @@
+import 'package:simplifi/components/airtime_beneficiary_item.dart';
 import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/features/recharge_airtme/recharge_airtime_controller.dart';
@@ -19,6 +20,7 @@ class RechargeAirtimeView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const AppHeightSizedBox(height: 16),
                   const PageTitleCard(
                     title: 'Recharge airtime',
                   ),
@@ -201,7 +203,7 @@ class BeneficiaryList extends StatelessWidget {
                     controller.onBeneficiarySelected(
                         beneficiary.accountNumber!, beneficiary.bankName!);
                   },
-                  child: BeneficiaryItem(
+                  child: AirtimeBeneficiaryItem(
                     beneficiaryModel: beneficiary,
                   ),
                 );

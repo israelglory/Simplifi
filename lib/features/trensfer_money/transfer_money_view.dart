@@ -19,6 +19,7 @@ class TransferMoneyView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const AppHeightSizedBox(height: 16),
                   const PageTitleCard(
                     title: 'Transfer Money',
                   ),
@@ -79,7 +80,8 @@ class TransferMoneyView extends StatelessWidget {
                     onChanged: (val) {
                       if (val.length == 10) {
                         controller.getBankDetails();
-                      } else if (val.length > 10) {
+                      }
+                      if (val.length < 10) {
                         controller.resetAccName();
                       }
                     },
