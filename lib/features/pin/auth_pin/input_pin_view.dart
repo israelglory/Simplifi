@@ -40,11 +40,16 @@ class InputPinView extends StatelessWidget {
                   obscureText: true,
                   keyboardType: TextInputType.none,
                   cursorColor: AppColors.primaryColor,
-                  onChanged: (val) {
+                  onChanged: (val) async {
                     if (val.length == 4) {
                       print('Completed');
                       print(val);
                       print(controller.pinController.text);
+                      await Future.delayed(
+                        const Duration(seconds: 1),
+                      );
+                      controller.onCompleted(val);
+                      controller.pinController.clear();
                     }
                   },
                   enableActiveFill: false,

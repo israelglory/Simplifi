@@ -1,3 +1,5 @@
+import 'package:simplifi/features/about/about_view.dart';
+import 'package:simplifi/features/pin/auth_pin/input_pin_view.dart';
 import 'package:simplifi/features/pin/create_pin/create_pin_view.dart';
 import 'package:simplifi/features/pin/update_pin/update_pin_view.dart';
 import 'package:simplifi/features/re_auth/re_auth_view.dart';
@@ -11,6 +13,7 @@ import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi
 import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_receipt/simplifi_transfer_receipt_view.dart';
 import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_auth_pin/simplifi_input_transfer_pin_view.dart';
 import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_money_view.dart';
+import 'package:simplifi/features/transaction/transaction_view.dart';
 import 'package:simplifi/features/trensfer_money/processing_transfer/processing_transfer_view.dart';
 import 'package:simplifi/features/trensfer_money/receipt/transfer_receipt_view.dart';
 import 'package:simplifi/features/trensfer_money/transfer_auth_pin/input_transfer_pin_view.dart';
@@ -53,12 +56,15 @@ class RoutesClass {
       '/feature/simplifiTransferReceipt';
 
   //Pin
+  static const String inputPin = '/feature/inputPin';
   static const String createPin = '/feature/createPin';
   static const String updatePin = '/feature/updatePin';
   static const String inputTransferPin = '/feature/inputTransferPin';
   static const String inputSimplifiTransferPin =
       '/feature/inputSimplifiTransferPin';
   static const String inputAirtimePin = '/feature/inputAirtimePin';
+  static const String transactions = '/feature/transactions';
+  static const String about = '/feature/about';
 
   // GETTERS
   // Authentication Routes
@@ -88,10 +94,13 @@ class RoutesClass {
 
   //Pin
   static String getCreatePinRoute() => createPin;
+  static String getInputPinRoute() => inputPin;
   static String getUpdatePinRoute() => updatePin;
   static String getInputTransferPinRoute() => inputTransferPin;
   static String getInputSimplifiTransferPinRoute() => inputSimplifiTransferPin;
   static String getInputAirtimePinRoute() => inputAirtimePin;
+  static String getTransactionRoute() => transactions;
+  static String getAboutRoute() => about;
 
   // ROUTING FUNCTION
   static List<GetPage> routes = [
@@ -125,8 +134,22 @@ class RoutesClass {
       curve: Curves.fastOutSlowIn,
     ),
     GetPage(
+      name: getAboutRoute(),
+      page: () => const AboutView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
       name: getIntroScreenRoute(),
       page: () => const IntroPageView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
+      name: getTransactionRoute(),
+      page: () => const TransactionView(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(seconds: 0, milliseconds: 400),
       curve: Curves.fastOutSlowIn,
@@ -172,6 +195,13 @@ class RoutesClass {
     GetPage(
       name: getCreatePinRoute(),
       page: () => const CreatePinView(),
+      transition: Transition.fadeIn,
+      transitionDuration: const Duration(seconds: 0, milliseconds: 400),
+      curve: Curves.fastOutSlowIn,
+    ),
+    GetPage(
+      name: getInputPinRoute(),
+      page: () => const InputPinView(),
       transition: Transition.fadeIn,
       transitionDuration: const Duration(seconds: 0, milliseconds: 400),
       curve: Curves.fastOutSlowIn,

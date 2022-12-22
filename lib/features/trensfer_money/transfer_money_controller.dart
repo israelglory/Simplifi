@@ -193,7 +193,7 @@ class TransferMoneyController extends GetxController {
     bankName.clear();
     description.clear();
     amount.clear();
-    update();
+    //update();
   }
 
   Stream<QuerySnapshot> getBeneficiaryFireStore() {

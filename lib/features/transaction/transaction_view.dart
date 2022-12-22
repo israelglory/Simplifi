@@ -1,82 +1,42 @@
 import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/home_head.dart';
+import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/components/transaction_card.dart';
 import 'package:simplifi/features/simplifi/tabs/home/home_tab_controller.dart';
+import 'package:simplifi/features/transaction/transaction_controller.dart';
 import 'package:simplifi/models/banking/beneficiary_model.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+class TransactionView extends StatelessWidget {
+  const TransactionView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<HomeController>(
-      init: HomeController(),
+    return GetBuilder<TransactionController>(
+      init: TransactionController(),
       initState: (state) {},
       builder: (controller) {
         return SafeArea(
           top: true,
           child: RefreshIndicator(
-            onRefresh: () async {
-              await controller.finalUserData();
-            },
+            onRefresh: () async {},
             child: Scaffold(
                 body: CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AppHeightSizedBox(height: 16),
-                      HomeHeader(
-                        title:
-                            'Welcome back, ${controller.userData.firstName ?? ''}',
-                        accountBalance: controller.noSimbolInUSFormat.format(
-                          controller.userData.accountBalance ?? 0,
-                        ),
-                        show: controller.show,
-                        accountNumber: controller.userData.accountNumber ??
-                            'not available',
-                        onObscure: () {
-                          controller.onObscure();
-                        },
-                        onhide: () {
-                          controller.onhide();
-                        },
-                        avatar: controller.userData.avatar ?? '',
+                    children: const [
+                      AppHeightSizedBox(height: 16),
+                      PageTitleCard(
+                        title: 'Transactions',
                       ),
-                      const AppHeightSizedBox(height: 24),
-                      /*Container(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: AppText(
-                          'Send money to friends',
-                          size: 20,
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        height: MediaQuery.of(context).size.height * 0.13,
-                        child: BeneficiaryList(
-                          controller: controller,
-                        ),
-                      ),*/
-                      //const AppHeightSizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: AppText(
-                          'Recent transactions',
-                          size: 20,
-                          color: AppColors.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const AppHeightSizedBox(height: 24),
+                      AppHeightSizedBox(height: 24),
                     ],
                   ),
                 ),
+                //const AppHeightSizedBox(height: 16),
                 SliverToBoxAdapter(
                   child: StreamBuilder<QuerySnapshot>(
                     stream: controller.getStreamFireStore(),
@@ -88,7 +48,7 @@ class HomeView extends StatelessWidget {
                         //print(snapshot.data!.docs.first);
                         if (controller.transactionList.length > 0) {
                           return ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {

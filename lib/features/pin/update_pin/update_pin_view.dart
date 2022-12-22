@@ -45,6 +45,7 @@ class UpdatePinView extends StatelessWidget {
                       print('Completed');
                       print(val);
                       print(controller.pinController.text);
+                      controller.onCompleted(val);
                     }
                   },
                   enableActiveFill: false,

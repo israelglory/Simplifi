@@ -1,7 +1,53 @@
+import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
+import 'package:simplifi/services/user_service/user_auth.dart';
 
 class InputPinController extends GetxController {
   TextEditingController pinController = TextEditingController();
+  UserAuth userAuth = UserAuth();
+  UserModel userData = UserModel();
+
+  @override
+  void onInit() async {
+    await finalUserData();
+    update();
+    super.onInit();
+  }
+
+  Future<void> finalUserData() async {
+    final userinfo = await userAuth.getUserData();
+    print(userinfo);
+
+    userData = UserModel(
+      accountNumber: userinfo['accountNumber'],
+      avatar: userinfo['avatar'],
+      email: userinfo['email'],
+      firstName: userinfo['firstName'],
+      lastName: userinfo['lastName'],
+      passWord: userinfo['passWord'],
+      pin: userinfo['pin'],
+      userName: userinfo['userName'],
+    );
+    update();
+  }
+
+  void onCompleted(String pin) {
+    if (userData.pin != pin) {
+      Get.snackbar(
+        "Error",
+        'Incorrect Pin',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+      pinController.clear();
+      update();
+    } else {
+      Get.offAndToNamed(RoutesClass.getUpdatePinRoute());
+    }
+  }
+
   void onButtonClick(String number) {
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(

@@ -163,7 +163,6 @@ class SimplifiTransferMoneyController extends GetxController {
     bankName.clear();
     description.clear();
     amount.clear();
-    update();
   }
 
   Stream<QuerySnapshot> getBeneficiaryFireStore() {
