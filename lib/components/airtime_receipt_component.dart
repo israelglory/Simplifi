@@ -1,7 +1,9 @@
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class AirtimeReceipt extends StatelessWidget {
-  const AirtimeReceipt({Key? key}) : super(key: key);
+  final TransferTransactionModel receipt;
+  const AirtimeReceipt({Key? key, required this.receipt}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,29 +24,29 @@ class AirtimeReceipt extends StatelessWidget {
           ),
           receiptRow(
             title: 'Network provider:',
-            value: 'Fidelis Omoroighe',
+            value: receipt.bankName!,
           ),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Number:',
-            value: '08141208203',
+            value: receipt.accountNumber!,
           ),
           const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Amount:',
-            value: '₦10,000',
+            value: '₦${receipt.amount}',
           ),
-          const SizedBox(
+          /*const SizedBox(
             height: 16,
           ),
           receiptRow(
             title: 'Reference number',
             value: 'REFAir20221101235600',
-          ),
+          ),*/
         ],
       ),
     );

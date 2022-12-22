@@ -8,6 +8,8 @@ class TransferTransactionModel {
   final int? amount;
   final String? receiver;
   final String? bankName;
+  final String? bankCode;
+  final String? bankLogo;
   final String? accountNumber;
   final String? description;
   final String? referenceNumber;
@@ -21,6 +23,8 @@ class TransferTransactionModel {
     this.bankName,
     this.accountNumber,
     this.description,
+    this.bankLogo,
+    this.bankCode,
     this.transactionState,
     this.referenceNumber,
   });
@@ -33,6 +37,8 @@ class TransferTransactionModel {
       amount: map['amount'],
       receiver: map['receiver'],
       bankName: map['bankName'],
+      bankLogo: map['bankLogo'],
+      bankCode: map['bankCode'],
       transactionState: map['transactionState'],
       accountNumber: map['accountNumber'],
       description: map['description'],

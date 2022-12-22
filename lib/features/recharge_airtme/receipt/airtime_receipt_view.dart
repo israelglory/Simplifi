@@ -31,7 +31,9 @@ class AirtimeReceiptView extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  const AirtimeReceipt(),
+                  AirtimeReceipt(
+                    receipt: controller.transaction,
+                  ),
                   const SizedBox(
                     height: 24,
                   ),

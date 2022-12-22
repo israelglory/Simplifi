@@ -13,12 +13,15 @@ class HomeController extends GetxController {
   List<QueryDocumentSnapshot> transactionList = [];
   int limit = 20;
   int limitIncrement = 20;
+  List<QueryDocumentSnapshot> beneficiaryList = [];
   final ScrollController listScrollController = ScrollController();
+  final ScrollController benelistScrollController = ScrollController();
 
   @override
   void onInit() async {
     await finalUserData();
     listScrollController.addListener(scrollListener);
+    benelistScrollController.addListener(benescrollListener);
     update();
     super.onInit();
   }
@@ -68,5 +71,26 @@ class HomeController extends GetxController {
   onhide() {
     show = true;
     update();
+  }
+
+  Stream<QuerySnapshot> getBeneficiaryFireStore() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('beneficiary')
+        .where(
+          'transactionType',
+          isEqualTo: 'Money Transfer',
+        )
+        .snapshots();
+  }
+
+  void benescrollListener() {
+    if (listScrollController.offset >=
+            listScrollController.position.maxScrollExtent &&
+        !listScrollController.position.outOfRange) {
+      limit += limitIncrement;
+      update();
+    }
   }
 }

@@ -2,6 +2,7 @@ import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/home_head.dart';
 import 'package:simplifi/components/transaction_card.dart';
 import 'package:simplifi/features/simplifi/tabs/home/home_tab_controller.dart';
+import 'package:simplifi/models/banking/beneficiary_model.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
@@ -58,7 +59,9 @@ class HomeView extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.only(left: 16.0),
                         height: MediaQuery.of(context).size.height * 0.13,
-                        child: const BeneficiaryList(),
+                        child: BeneficiaryList(
+                          controller: controller,
+                        ),
                       ),
                       //const AppHeightSizedBox(height: 8),
                       Container(
@@ -141,21 +144,56 @@ class HomeView extends StatelessWidget {
 }
 
 class BeneficiaryList extends StatelessWidget {
-  const BeneficiaryList({Key? key}) : super(key: key);
+  final HomeController controller;
+  const BeneficiaryList({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemCount: 10,
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      clipBehavior: Clip.none,
-      itemBuilder: (context, index) {
-        return const BeneficiaryItem();
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(width: 18);
+    return StreamBuilder<QuerySnapshot>(
+      stream: controller.getBeneficiaryFireStore(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData) {
+          controller.beneficiaryList = snapshot.data!.docs;
+          print(controller.beneficiaryList.length);
+          if (controller.beneficiaryList.length > 0) {
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              clipBehavior: Clip.none,
+              padding: const EdgeInsets.all(0),
+              itemBuilder: (context, index) {
+                BeneficiaryModel beneficiary =
+                    BeneficiaryModel.fromFirestore(snapshot.data!.docs[index]);
+
+                return GestureDetector(
+                  onTap: () {},
+                  child: BeneficiaryItem(
+                    beneficiaryModel: beneficiary,
+                  ),
+                );
+              },
+              itemCount: snapshot.data!.docs.length,
+              reverse: false,
+              controller: controller.benelistScrollController,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  width: 20,
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: Text(
+                'No Beneficiary sent yet',
+              ),
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }

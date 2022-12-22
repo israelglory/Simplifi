@@ -2,24 +2,20 @@ import 'package:jiffy/jiffy.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/utils/utils.dart';
 
-class SendTransferTransaction {
+class BuyAirtimeService {
   final _firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
 
-  Future<void> sendTransfer({
-    required String sender,
+  Future<void> buyAirtime({
     required int amount,
-    required String receiver,
     required String bankName,
-    required String bankCode,
     required String accountNumber,
-    required String description,
   }) async {
     final userinfo = await getUserData();
     var accountBalance = userinfo['accountBalance'];
     DateTime dateNow = DateTime.now();
     final date = Jiffy(dateNow).format('dd-MM-yyyy');
-    final bankLogo = getBankImage(bankName);
+    final bankLogo = getProviderImage(bankName);
     final docRef = _firestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
@@ -28,15 +24,15 @@ class SendTransferTransaction {
     if (accountBalance > amount) {
       docRef.set({
         'transactionDate': date,
-        'transactionType': 'Money Transfer',
-        'sender': sender,
+        'transactionType': 'Airtime Purchase',
+        'sender': '',
         'amount': amount,
-        'receiver': receiver,
+        'receiver': '',
         'bankName': bankName,
         'accountNumber': accountNumber,
-        'description': description,
+        'description': '',
         'bankLogo': bankLogo,
-        'bankCode': bankCode,
+        'bankCode': '',
         'transactionState': 'debit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
       });
@@ -44,7 +40,7 @@ class SendTransferTransaction {
     } else {
       Get.snackbar(
         "Error",
-        'Incorrect Pin',
+        'Insufficient balance',
         colorText: Colors.white,
         dismissDirection: DismissDirection.horizontal,
         backgroundColor: AppColors.appRed,

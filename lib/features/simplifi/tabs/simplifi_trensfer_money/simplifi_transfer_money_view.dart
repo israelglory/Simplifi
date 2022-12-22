@@ -1,6 +1,7 @@
 import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/features/simplifi/tabs/simplifi_trensfer_money/simplifi_transfer_money_controller.dart';
+import 'package:simplifi/models/banking/beneficiary_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class SimplifiTransferMoneyView extends StatelessWidget {
@@ -34,7 +35,9 @@ class SimplifiTransferMoneyView extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.only(left: 16.0),
                     height: MediaQuery.of(context).size.height * 0.13,
-                    child: const BeneficiaryList(),
+                    child: BeneficiaryList(
+                      controller: controller,
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 16.0),
@@ -53,6 +56,8 @@ class SimplifiTransferMoneyView extends StatelessWidget {
                     onChanged: (val) {
                       if (val.length == 10) {
                         controller.resolveAccount();
+                      } else if (val.length > 10) {
+                        controller.resetAccName();
                       }
                     },
                     hintText: '0123456789',
@@ -76,6 +81,7 @@ class SimplifiTransferMoneyView extends StatelessWidget {
                     textEditingController: controller.amount,
                     formText: 'Amount',
                     hintText: '10000',
+                    textInputType: TextInputType.number,
                     maxLines: 1,
                     borderWidth: 2,
                     borderColor: AppColors.transBlack,
@@ -85,7 +91,7 @@ class SimplifiTransferMoneyView extends StatelessWidget {
                   const AppHeightSizedBox(height: 16),
                   AppFormTextField(
                     textEditingController: controller.description,
-                    formText: 'Amount',
+                    formText: 'Description',
                     hintText: 'for goods',
                     maxLines: 1,
                     borderWidth: 2,
@@ -127,21 +133,58 @@ class SimplifiTransferMoneyView extends StatelessWidget {
 }
 
 class BeneficiaryList extends StatelessWidget {
-  const BeneficiaryList({Key? key}) : super(key: key);
+  final SimplifiTransferMoneyController controller;
+  const BeneficiaryList({Key? key, required this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemCount: 10,
-      physics: const BouncingScrollPhysics(),
-      shrinkWrap: true,
-      clipBehavior: Clip.none,
-      itemBuilder: (context, index) {
-        return const BeneficiaryItem();
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return const SizedBox(width: 18);
+    return StreamBuilder<QuerySnapshot>(
+      stream: controller.getBeneficiaryFireStore(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData) {
+          controller.beneficiaryList = snapshot.data!.docs;
+          print(controller.beneficiaryList.length);
+          if (controller.beneficiaryList.length > 0) {
+            return ListView.separated(
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              clipBehavior: Clip.none,
+              padding: const EdgeInsets.all(0),
+              itemBuilder: (context, index) {
+                BeneficiaryModel beneficiary =
+                    BeneficiaryModel.fromFirestore(snapshot.data!.docs[index]);
+
+                return GestureDetector(
+                  onTap: () {
+                    controller.onBeneficiarySelect(beneficiary.accountNumber!);
+                  },
+                  child: BeneficiaryItem(
+                    beneficiaryModel: beneficiary,
+                  ),
+                );
+              },
+              itemCount: snapshot.data!.docs.length,
+              reverse: false,
+              controller: controller.listScrollController,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(
+                  width: 20,
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: Text(
+                'No Beneficiary sent yet',
+              ),
+            );
+          }
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }

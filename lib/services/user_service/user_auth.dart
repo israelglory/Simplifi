@@ -29,6 +29,7 @@ class UserAuth {
       'avatar': avatar,
       'email': email,
       'passWord': password,
+      'accountBalance': 150000,
       'accountNumber': accountNumber,
     });
     await accountSetting(

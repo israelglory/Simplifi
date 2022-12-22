@@ -1,8 +1,11 @@
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
 class RechargeAirtimeDialog extends StatelessWidget {
   final Function() onPressed;
-  const RechargeAirtimeDialog({Key? key, required this.onPressed})
+  final TransferTransactionModel receipt;
+  const RechargeAirtimeDialog(
+      {Key? key, required this.onPressed, required this.receipt})
       : super(key: key);
 
   @override
@@ -29,7 +32,7 @@ class RechargeAirtimeDialog extends StatelessWidget {
             height: 20,
           ),
           AppText(
-            'Recharge 07031234567 with',
+            'Recharge ${receipt.accountNumber} with',
             color: AppColors.primaryColor,
             size: 16,
             alignment: TextAlign.center,
@@ -40,7 +43,7 @@ class RechargeAirtimeDialog extends StatelessWidget {
             height: 16,
           ),
           AppText(
-            '₦200?',
+            '₦${receipt.amount}?',
             alignment: TextAlign.center,
             maxLines: 3,
             color: AppColors.primaryColor,

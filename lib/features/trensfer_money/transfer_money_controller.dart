@@ -16,17 +16,33 @@ class TransferMoneyController extends GetxController {
   String accName = '';
   UserModel userData = UserModel();
   UserAuth userAuth = UserAuth();
+  List<QueryDocumentSnapshot> beneficiaryList = [];
+  int limit = 20;
+  int limitIncrement = 20;
+  final ScrollController listScrollController = ScrollController();
 
   List<Datum> listOfbanks = [];
   BankListApi bankApi = BankListApi();
   BankDetailAPI bankDetailAPI = BankDetailAPI();
   Data bankDetails = Data();
-  late Datum selectedBank;
+  Datum selectedBank = Datum(
+    id: 0,
+    name: '',
+    slug: '',
+    code: '',
+    longcode: '',
+    payWithBank: true,
+    active: true,
+    isDeleted: true,
+    createdAt: DateTime.now(),
+    updatedAt: DateTime.now(),
+  );
 
   @override
   void onInit() async {
     await getBanks();
     await finalUserData();
+    listScrollController.addListener(scrollListener);
     update();
     super.onInit();
   }
@@ -41,7 +57,7 @@ class TransferMoneyController extends GetxController {
   void bottomBankSelection() {
     Get.bottomSheet(
       Container(
-        padding: EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
+        padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
         color: Colors.white,
         height: 400,
         child: ListView.separated(
@@ -83,8 +99,11 @@ class TransferMoneyController extends GetxController {
     }
   }
 
-  void onTransferMoney() {
-    if (accName != 'Invalid Account') {
+  void onTransferMoney() async {
+    final userinfo = await userAuth.getUserData();
+    final accBalance = userinfo['accountBalance'];
+    final inputedAmm = int.parse(amount.text);
+    if (accName == 'Invalid Account') {
       Get.snackbar(
         "Error",
         'Check Account number or your internet connection',
@@ -94,7 +113,7 @@ class TransferMoneyController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       update();
-    } else if (int.parse(amount.text) <= userData.accountBalance!) {
+    } else if (accBalance <= inputedAmm) {
       Get.snackbar(
         "Error",
         'Insufficient balance',
@@ -131,6 +150,7 @@ class TransferMoneyController extends GetxController {
                 bankName: selectedBank.name,
                 receiver: bankDetails.accountName,
                 description: description.text,
+                bankCode: selectedBank.code,
               ),
             );
           },
@@ -164,5 +184,52 @@ class TransferMoneyController extends GetxController {
     description.clear();
     amount.clear();
     print('Disposed');
+  }
+
+  Stream<QuerySnapshot> getBeneficiaryFireStore() {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .collection('beneficiary')
+        .where(
+          'transactionType',
+          isEqualTo: 'Money Transfer',
+        )
+        .snapshots();
+  }
+
+  void scrollListener() {
+    if (listScrollController.offset >=
+            listScrollController.position.maxScrollExtent &&
+        !listScrollController.position.outOfRange) {
+      limit += limitIncrement;
+      update();
+    }
+  }
+
+  void onBeneficiarySelect(
+    String accNumber,
+    String bankName,
+    String bankCode,
+  ) async {
+    accountNumber.text = accNumber;
+    selectedBank.name = bankName;
+    update();
+    try {
+      await bankDetailAPI.fetchBankDetails(
+          accountNumber: accNumber, bankCode: bankCode);
+      bankDetails = bankDetailAPI.bankDetails;
+      accName = bankDetails.accountName!;
+      update();
+    } on Exception catch (e) {
+      accName = 'Invalid Account';
+      print(e);
+      update();
+    }
+  }
+
+  void resetAccName() {
+    accName = '';
+    update();
   }
 }

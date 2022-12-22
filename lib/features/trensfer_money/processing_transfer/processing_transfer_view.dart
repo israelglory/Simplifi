@@ -41,14 +41,20 @@ class ProcessTransferView extends StatelessWidget {
                           padding: const EdgeInsets.all(12.0),
                           radius: 8,
                           onPressed: () {
-                            //Get.offAndToNamed(RoutesClass.getRegisterRoute());
+                            controller.onAddBeneficiary();
                           },
                           color: AppColors.primaryColor,
-                          child: const AppText(
-                            'Add to Beneficiary',
-                            color: Colors.white,
-                            size: 16,
-                            fontWeight: FontWeight.w500,
+                          child: Visibility(
+                            visible: !controller.inProgress,
+                            replacement: const CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                            child: const AppText(
+                              'Add to Beneficiary',
+                              color: Colors.white,
+                              size: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),

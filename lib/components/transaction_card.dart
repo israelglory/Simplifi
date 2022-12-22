@@ -18,8 +18,8 @@ class TransactionCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const CustomAvatar(
-            url: 'https://static.thenounproject.com/png/407799-200.png',
+          CustomAvatar(
+            url: transaction.bankLogo!,
             height: 42,
             width: 42,
           ),
@@ -32,7 +32,9 @@ class TransactionCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 AppText(
-                  transaction.receiver!,
+                  transaction.receiver! == ''
+                      ? '${transaction.bankName!} - ${transaction.accountNumber!}'
+                      : transaction.receiver!,
                   fontWeight: FontWeight.w600,
                   size: 14,
                 ),

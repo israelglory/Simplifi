@@ -46,18 +46,18 @@ class Datum {
     required this.updatedAt,
   });
 
-  final int id;
-  final String name;
-  final String slug;
-  final String code;
-  final String longcode;
+  int id;
+  String name;
+  String slug;
+  String code;
+  String longcode;
 
-  final bool payWithBank;
-  final bool active;
+  bool payWithBank;
+  bool active;
 
-  final bool isDeleted;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  bool isDeleted;
+  DateTime createdAt;
+  DateTime updatedAt;
 
   factory Datum.fromMap(Map<String, dynamic> json) => Datum(
         id: json["id"],

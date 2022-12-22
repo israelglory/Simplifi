@@ -1,5 +1,6 @@
 import 'package:jiffy/jiffy.dart';
 import 'package:simplifi/routes/exports.dart';
+import 'package:simplifi/utils/utils.dart';
 
 class InternalTransferService {
   final _firestore = FirebaseFirestore.instance;
@@ -40,6 +41,7 @@ class InternalTransferService {
   }) async {
     DateTime dateNow = DateTime.now();
     final date = Jiffy(dateNow).format('dd-MM-yyyy');
+    final bankLogo = getBankImage('Simplifi');
     final docRef = _firestore
         .collection('users')
         .doc(_firebaseAuth.currentUser!.uid)
@@ -54,6 +56,8 @@ class InternalTransferService {
         'receiver': receiver,
         'bankName': 'Simplifi',
         'accountNumber': accountNumber,
+        'bankLogo': bankLogo,
+        'bankCode': '',
         'description': description,
         'transactionState': 'debit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
@@ -72,6 +76,7 @@ class InternalTransferService {
   }) async {
     DateTime dateNow = DateTime.now();
     final date = Jiffy(dateNow).format('dd-MM-yyyy');
+    final bankLogo = getBankImage('Simplifi');
     final docRef = _firestore
         .collection('users')
         .doc(receiverid)
@@ -85,6 +90,8 @@ class InternalTransferService {
         'amount': amount,
         'receiver': receiver,
         'bankName': 'Simplifi',
+        'bankLogo': bankLogo,
+        'bankCode': '',
         'accountNumber': accountNumber,
         'description': description,
         'transactionState': 'credit',

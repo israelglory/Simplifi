@@ -1,14 +1,18 @@
 import 'package:ezanimation/ezanimation.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
+import 'package:simplifi/services/beneficiary/beneficiary_services.dart';
 import 'package:simplifi/services/transaction_services/internal_transfer_services.dart';
+import 'package:simplifi/utils/utils.dart';
 
 class SimplifiProcessTransferController extends GetxController
     with GetTickerProviderStateMixin {
   InternalTransferService transfer = InternalTransferService();
   final transaction = Get.arguments as TransferTransactionModel;
+  BeneficiaryService beneficiaryService = BeneficiaryService();
   EzAnimation ezAnimation =
       EzAnimation(200.0, 300.0, const Duration(seconds: 1));
+  bool inProgress = false;
   bool isLoading = true;
   @override
   void onInit() async {
@@ -47,7 +51,8 @@ class SimplifiProcessTransferController extends GetxController
   Future<void> sendMoney() async {
     try {
       final userinfo = await getAccountDetailsData();
-      var rUid = userinfo['uid'];
+      final rUid = userinfo['uid'];
+      print(rUid);
       await transfer.onInternalTransfer(
           sender: transaction.sender!,
           amount: transaction.amount!,
@@ -56,6 +61,34 @@ class SimplifiProcessTransferController extends GetxController
           description: transaction.description!,
           receiverid: rUid);
     } on FirebaseException catch (e) {
+      Get.snackbar(
+        "Error",
+        e.message!,
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+    }
+  }
+
+  Future<void> onAddBeneficiary() async {
+    final bankImage = getBankImage(transaction.bankName!);
+    try {
+      inProgress = true;
+      update();
+      await beneficiaryService.addTransferBeneficiary(
+        bankName: transaction.bankName!,
+        accountNumber: transaction.accountNumber!,
+        fullName: transaction.receiver!,
+        bankLogo: bankImage,
+        bankCode: '',
+      );
+      inProgress = false;
+      update();
+    } on FirebaseException catch (e) {
+      inProgress = false;
+      update();
       Get.snackbar(
         "Error",
         e.message!,
