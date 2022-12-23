@@ -56,11 +56,21 @@ class TransactionView extends StatelessWidget {
                                       snapshot.data!.docs[index]);
                               bool debit =
                                   transaction.transactionState == 'debit';
+                              bool isAirtime = transaction.transactionType ==
+                                  'Airtime Purchase';
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(
+                                  if (isAirtime) {
+                                    Get.toNamed(
+                                      RoutesClass.getAirtimeReceiptRoute(),
+                                      arguments: transaction,
+                                    );
+                                  } else {
+                                    Get.toNamed(
                                       RoutesClass.getTransferReceiptRoute(),
-                                      arguments: transaction);
+                                      arguments: transaction,
+                                    );
+                                  }
                                 },
                                 child: TransactionCard(
                                   isDebit: debit,

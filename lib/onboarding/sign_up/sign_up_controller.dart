@@ -58,7 +58,7 @@ class SignUpController extends GetxController {
       } else if (passController.text != confirmPassController.text) {
         Get.snackbar(
           "Error",
-          'Password is different',
+          'Password doesn\'t match',
           dismissDirection: DismissDirection.horizontal,
           colorText: Colors.white,
           backgroundColor: AppColors.appRed,

@@ -1,5 +1,5 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/splash/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,25 +29,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          //
-          useInheritedMediaQuery: true,
-          locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
-          //
-          theme: ThemeData(
-            primarySwatch: MaterialColor(0xFF10225e, AppColors.primarySwatch),
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme:
-                GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
-          ),
-          home: const SplashScreen(),
-          getPages: RoutesClass.routes,
-        );
-      },
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      //
+      //useInheritedMediaQuery: true,
+      //locale: DevicePreview.locale(context),
+      //builder: DevicePreview.appBuilder,
+      //
+      theme: ThemeData(
+        primarySwatch: MaterialColor(0xFF10225e, AppColors.primarySwatch),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        textTheme: GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
+      ),
+      home: const SplashScreen(),
+      getPages: RoutesClass.routes,
     );
   }
 }

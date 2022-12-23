@@ -1,3 +1,5 @@
+import 'package:grouped_list/grouped_list.dart';
+import 'package:intl/intl.dart';
 import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/home_head.dart';
 import 'package:simplifi/components/transaction_card.dart';
@@ -63,7 +65,7 @@ class HomeView extends StatelessWidget {
                           controller: controller,
                         ),
                       ),*/
-                      //const AppHeightSizedBox(height: 8),
+                      const AppHeightSizedBox(height: 8),
                       Container(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: AppText(
@@ -74,6 +76,7 @@ class HomeView extends StatelessWidget {
                         ),
                       ),
                       const AppHeightSizedBox(height: 24),
+                      //GroupedListView(elements: elements, groupBy: groupBy)
                     ],
                   ),
                 ),
@@ -84,7 +87,6 @@ class HomeView extends StatelessWidget {
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         controller.transactionList = snapshot.data!.docs;
-
                         if (controller.transactionList.isNotEmpty) {
                           return ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
@@ -96,11 +98,21 @@ class HomeView extends StatelessWidget {
                                       snapshot.data!.docs[index]);
                               bool debit =
                                   transaction.transactionState == 'debit';
+                              bool isAirtime = transaction.transactionType ==
+                                  'Airtime Purchase';
                               return GestureDetector(
                                 onTap: () {
-                                  Get.toNamed(
+                                  if (isAirtime) {
+                                    Get.toNamed(
+                                      RoutesClass.getAirtimeReceiptRoute(),
+                                      arguments: transaction,
+                                    );
+                                  } else {
+                                    Get.toNamed(
                                       RoutesClass.getTransferReceiptRoute(),
-                                      arguments: transaction);
+                                      arguments: transaction,
+                                    );
+                                  }
                                 },
                                 child: TransactionCard(
                                   isDebit: debit,
@@ -197,48 +209,35 @@ class BeneficiaryList extends StatelessWidget {
   }
 }
 
-/*class TransactionList extends StatelessWidget {
-  const TransactionList({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: controller.getStreamFireStore(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasData) {
-          controller.joblists = snapshot.data!.docs;
-          if (controller.joblists.length > 0) {
-            return ListView.separated(
-              padding: const EdgeInsets.all(0),
-              itemBuilder: (context, index) {
-                TransferTransactionModel transaction =
-                    TransferTransactionModel.fromFirestore(
-                        snapshot.data!.docs[index]);
-                bool debit = transaction.transactionState == 'debit';
-                return TransactionCard();
-              },
-              itemCount: snapshot.data!.docs.length,
-              reverse: false,
-              controller: controller.listScrollController,
-              separatorBuilder: (BuildContext context, int index) {
-                return const SizedBox(
-                  height: 20,
-                );
-              },
-            );
-          } else {
-            return const Center(
-              child: Text(
-                'No Proposal sent yet',
-              ),
-            );
-          }
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-}*/
+/*ListView.separated(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.all(0),
+                            itemBuilder: (context, index) {
+                              TransferTransactionModel transaction =
+                                  TransferTransactionModel.fromFirestore(
+                                      snapshot.data!.docs[index]);
+                              bool debit =
+                                  transaction.transactionState == 'debit';
+                              return GestureDetector(
+                                onTap: () {
+                                  Get.toNamed(
+                                      RoutesClass.getTransferReceiptRoute(),
+                                      arguments: transaction);
+                                },
+                                child: TransactionCard(
+                                  isDebit: debit,
+                                  transaction: transaction,
+                                ),
+                              );
+                            },
+                            itemCount: snapshot.data!.docs.length,
+                            reverse: false,
+                            controller: controller.listScrollController,
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const SizedBox(
+                                height: 20,
+                              );
+                            },
+                          );*/

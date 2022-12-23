@@ -14,20 +14,21 @@ class TransferTransactionModel {
   final String? description;
   final String? referenceNumber;
   final String? transactionState;
-  TransferTransactionModel({
-    this.transactionDate,
-    this.transactionType,
-    this.sender,
-    this.amount,
-    this.receiver,
-    this.bankName,
-    this.accountNumber,
-    this.description,
-    this.bankLogo,
-    this.bankCode,
-    this.transactionState,
-    this.referenceNumber,
-  });
+  final Timestamp? timeStamp;
+  TransferTransactionModel(
+      {this.transactionDate,
+      this.transactionType,
+      this.sender,
+      this.amount,
+      this.receiver,
+      this.bankName,
+      this.accountNumber,
+      this.description,
+      this.bankLogo,
+      this.bankCode,
+      this.transactionState,
+      this.referenceNumber,
+      this.timeStamp});
 
   factory TransferTransactionModel.fromFirestore(DocumentSnapshot map) {
     return TransferTransactionModel(
@@ -43,6 +44,7 @@ class TransferTransactionModel {
       accountNumber: map['accountNumber'],
       description: map['description'],
       referenceNumber: map['referenceNumber'],
+      timeStamp: map['timeStamp']!,
     );
   }
 }

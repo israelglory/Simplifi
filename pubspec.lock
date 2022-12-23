@@ -286,13 +286,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.3.0"
-  flutter_flavor:
-    dependency: "direct main"
-    description:
-      name: flutter_flavor
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -326,13 +319,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.7"
-  flutter_rating_stars:
-    dependency: "direct main"
-    description:
-      name: flutter_rating_stars
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3+4"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -371,6 +357,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  grouped_list:
+    dependency: "direct main"
+    description:
+      name: grouped_list
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.2"
   http:
     dependency: transitive
     description:
@@ -392,27 +385,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.2"
-  image_cropper:
-    dependency: "direct main"
-    description:
-      name: image_cropper
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.1"
-  image_cropper_for_web:
-    dependency: transitive
-    description:
-      name: image_cropper_for_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
-  image_cropper_platform_interface:
-    dependency: transitive
-    description:
-      name: image_cropper_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.3"
   image_picker:
     dependency: "direct main"
     description:
@@ -651,13 +623,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.3"
-  responsive_sizer:
-    dependency: "direct main"
-    description:
-      name: responsive_sizer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.1.1"
   rxdart:
     dependency: transitive
     description:

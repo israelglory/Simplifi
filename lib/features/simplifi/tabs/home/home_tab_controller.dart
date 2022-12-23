@@ -1,3 +1,4 @@
+import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
@@ -11,6 +12,7 @@ class HomeController extends GetxController {
   final noSimbolInUSFormat =
       NumberFormat.currency(locale: "en_US", symbol: "#");
   List<QueryDocumentSnapshot> transactionList = [];
+  List<TransferTransactionModel> processedTransactionList = [];
   int limit = 20;
   int limitIncrement = 20;
   List<QueryDocumentSnapshot> beneficiaryList = [];

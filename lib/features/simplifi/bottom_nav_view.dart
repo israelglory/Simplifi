@@ -47,7 +47,7 @@ class BottomNavigationView extends StatelessWidget {
                 icon: Icon(
                   Icons.monetization_on_rounded,
                 ),
-                label: 'Simplifi Transfer',
+                label: 'Simplifi',
               ),
               BottomNavigationBarItem(
                 icon: Icon(

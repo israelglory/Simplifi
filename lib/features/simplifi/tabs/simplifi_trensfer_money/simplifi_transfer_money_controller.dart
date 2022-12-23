@@ -62,7 +62,12 @@ class SimplifiTransferMoneyController extends GetxController {
     return userData;
   }
 
-  void onTransferMoney() {
+  void onTransferMoney() async {
+    final docRef = FirebaseFirestore.instance
+        .collection('accounts')
+        .doc(accountNumber.text);
+
+    DocumentSnapshot snap = await docRef.get();
     if (accName == 'Invalid Account') {
       Get.snackbar(
         "Error",
@@ -87,6 +92,15 @@ class SimplifiTransferMoneyController extends GetxController {
       Get.snackbar(
         "Error",
         'You cannot send money to yourself',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+    } else if(!snap.exists){
+      Get.snackbar(
+        "Error",
+        'Input valid account number',
         colorText: Colors.white,
         dismissDirection: DismissDirection.horizontal,
         backgroundColor: AppColors.appRed,

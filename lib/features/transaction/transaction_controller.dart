@@ -29,6 +29,7 @@ class TransactionController extends GetxController {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('transactions')
+        .orderBy('timeStamp', descending: true)
         .snapshots();
   }
 }
