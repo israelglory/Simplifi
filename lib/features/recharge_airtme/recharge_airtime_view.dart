@@ -1,5 +1,4 @@
 import 'package:simplifi/components/airtime_beneficiary_item.dart';
-import 'package:simplifi/components/beneficiary_item.dart';
 import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/features/recharge_airtme/recharge_airtime_controller.dart';
 import 'package:simplifi/models/banking/beneficiary_model.dart';
@@ -186,8 +185,8 @@ class BeneficiaryList extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           controller.beneficiaryList = snapshot.data!.docs;
-          print(controller.beneficiaryList.length);
-          if (controller.beneficiaryList.length > 0) {
+
+          if (controller.beneficiaryList.isNotEmpty) {
             return ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),

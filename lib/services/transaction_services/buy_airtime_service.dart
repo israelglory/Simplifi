@@ -1,16 +1,29 @@
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/utils/utils.dart';
 
 class BuyAirtimeService {
+  String? date;
+  Timestamp? timestamp;
   final _firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
+
+  ///When posting jobs/proposals we can pass the date and timestamp that have been formatted in the data that will be sent to the firebase
+  Future _getDate() async {
+    DateTime now = DateTime.now();
+    String _date = DateFormat('dd MMMM yy').format(now);
+    Timestamp _timestamp = Timestamp.now();
+    timestamp = _timestamp;
+    date = _date;
+  }
 
   Future<void> buyAirtime({
     required int amount,
     required String bankName,
     required String accountNumber,
   }) async {
+    await _getDate();
     final userinfo = await getUserData();
     var accountBalance = userinfo['accountBalance'];
     DateTime dateNow = DateTime.now();
@@ -33,6 +46,7 @@ class BuyAirtimeService {
         'description': '',
         'bankLogo': bankLogo,
         'bankCode': '',
+        'timeStamp': timestamp,
         'transactionState': 'debit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
       });

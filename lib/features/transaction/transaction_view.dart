@@ -1,5 +1,4 @@
 import 'package:simplifi/components/beneficiary_item.dart';
-import 'package:simplifi/components/home_head.dart';
 import 'package:simplifi/components/page_title_card.dart';
 import 'package:simplifi/components/transaction_card.dart';
 import 'package:simplifi/features/simplifi/tabs/home/home_tab_controller.dart';
@@ -44,9 +43,9 @@ class TransactionView extends StatelessWidget {
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         controller.transactionList = snapshot.data!.docs;
-                        print(controller.transactionList.length);
+
                         //print(snapshot.data!.docs.first);
-                        if (controller.transactionList.length > 0) {
+                        if (controller.transactionList.isNotEmpty) {
                           return ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -114,8 +113,8 @@ class BeneficiaryList extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           controller.beneficiaryList = snapshot.data!.docs;
-          print(controller.beneficiaryList.length);
-          if (controller.beneficiaryList.length > 0) {
+
+          if (controller.beneficiaryList.isNotEmpty) {
             return ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),

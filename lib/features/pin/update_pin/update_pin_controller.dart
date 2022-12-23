@@ -28,7 +28,6 @@ class UpdatePinController extends GetxController {
   }
 
   void onButtonClick(String number) {
-    print('clicked');
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(
         TextPosition(offset: pinController.text.length));

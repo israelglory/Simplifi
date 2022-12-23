@@ -1,10 +1,22 @@
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/utils/utils.dart';
 
 class InternalTransferService {
+  String? date;
+  Timestamp? timestamp;
   final _firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
+
+  ///When posting jobs/proposals we can pass the date and timestamp that have been formatted in the data that will be sent to the firebase
+  Future _getDate() async {
+    DateTime now = DateTime.now();
+    String _date = DateFormat('dd MMMM yy').format(now);
+    Timestamp _timestamp = Timestamp.now();
+    timestamp = _timestamp;
+    date = _date;
+  }
 
   Future<void> onInternalTransfer({
     required String sender,
@@ -14,22 +26,26 @@ class InternalTransferService {
     required String accountNumber,
     required String description,
   }) async {
-    await senderTransfer(
-      sender: sender,
-      amount: amount,
-      receiver: receiver,
-      accountNumber: accountNumber,
-      description: description,
-    );
+    final userinfo = await getUserData();
+    var accountBalance = userinfo['accountBalance'];
+    if (accountBalance >= amount) {
+      await senderTransfer(
+        sender: sender,
+        amount: amount,
+        receiver: receiver,
+        accountNumber: accountNumber,
+        description: description,
+      );
 
-    await receiverTransfer(
-      sender: sender,
-      amount: amount,
-      receiver: receiver,
-      receiverid: receiverid,
-      accountNumber: accountNumber,
-      description: description,
-    );
+      await receiverTransfer(
+        sender: sender,
+        amount: amount,
+        receiver: receiver,
+        receiverid: receiverid,
+        accountNumber: accountNumber,
+        description: description,
+      );
+    }
   }
 
   Future<void> senderTransfer({
@@ -39,6 +55,7 @@ class InternalTransferService {
     required String accountNumber,
     required String description,
   }) async {
+    await _getDate();
     DateTime dateNow = DateTime.now();
     final date = Jiffy(dateNow).format('dd-MM-yyyy');
     final bankLogo = getBankImage('Simplifi');
@@ -58,6 +75,7 @@ class InternalTransferService {
         'accountNumber': accountNumber,
         'bankLogo': bankLogo,
         'bankCode': '',
+        'timeStamp': timestamp,
         'description': description,
         'transactionState': 'debit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
@@ -74,6 +92,7 @@ class InternalTransferService {
     required String accountNumber,
     required String description,
   }) async {
+    await _getDate();
     DateTime dateNow = DateTime.now();
     final date = Jiffy(dateNow).format('dd-MM-yyyy');
     final bankLogo = getBankImage('Simplifi');
@@ -94,6 +113,7 @@ class InternalTransferService {
         'bankCode': '',
         'accountNumber': accountNumber,
         'description': description,
+        'timeStamp': timestamp,
         'transactionState': 'credit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
       },
@@ -111,7 +131,7 @@ class InternalTransferService {
     if (accountBalance > debitAmount) {
       docRef.update({'accountBalance': newAcountBalnce});
     } else {
-      print('Insufficient Balace');
+      //print('Insufficient Balace');
     }
   }
 

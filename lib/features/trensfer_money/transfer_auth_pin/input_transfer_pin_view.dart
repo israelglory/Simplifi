@@ -42,9 +42,6 @@ class InputTransferPinView extends StatelessWidget {
                   cursorColor: AppColors.primaryColor,
                   onChanged: (val) async {
                     if (val.length == 4) {
-                      print('Completed');
-                      print(val);
-                      print(controller.pinController.text);
                       await Future.delayed(
                         const Duration(seconds: 1),
                       );

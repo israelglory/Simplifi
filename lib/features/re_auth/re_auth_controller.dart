@@ -16,7 +16,6 @@ class ReAuthController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
 
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
@@ -49,7 +48,6 @@ class ReAuthController extends GetxController {
   }
 
   void onButtonClick(String number) {
-    print('clicked');
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(
         TextPosition(offset: pinController.text.length));

@@ -29,31 +29,38 @@ class RechargeAirtimeController extends GetxController {
   void bottomBankSelection() {
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-        color: Colors.white,
-        height: 300,
+        padding: const EdgeInsets.only(left: 16.0, top: 36.0, bottom: 16.0),
+        //color: Colors.white,
+        height: 400,
         child: ListView.separated(
-            itemBuilder: (context, index) {
-              return InkWell(
-                  onTap: () {
-                    selectedNetwork = listofNetworks[index];
-                    update();
-                    Get.back();
-                  },
-                  child: AppText(
-                    listofNetworks[index],
-                    size: 22,
-                  ));
-            },
-            separatorBuilder: (context, index) {
-              return const SizedBox(
-                height: 16.0,
-              );
-            },
-            itemCount: listofNetworks.length),
+          itemBuilder: (context, index) {
+            return InkWell(
+                onTap: () {
+                  selectedNetwork = listofNetworks[index];
+                  update();
+                  Get.back();
+                },
+                child: AppText(
+                  listofNetworks[index],
+                  size: 22,
+                ));
+          },
+          separatorBuilder: (context, index) {
+            return const SizedBox(
+              height: 16.0,
+            );
+          },
+          itemCount: listofNetworks.length,
+        ),
       ),
       enableDrag: true,
       backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+        ),
+      ),
     );
   }
 

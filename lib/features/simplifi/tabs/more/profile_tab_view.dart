@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:simplifi/components/app_button.dart';
-import 'package:simplifi/components/app_height_sized_box.dart';
-import 'package:simplifi/components/app_text.dart';
 import 'package:simplifi/components/custom_avatar.dart';
-import 'package:simplifi/constants/app_colors.dart';
 import 'package:simplifi/features/simplifi/tabs/more/profile_tab_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 
@@ -67,7 +61,7 @@ class ProfileTabView extends StatelessWidget {
                 ),
                 //FullName
                 AppText(
-                  '${controller.userData.firstName} ${controller.userData.lastName}',
+                  '${controller.userData.firstName ?? 'no'} ${controller.userData.lastName ?? 'name'}',
                   size: 28,
                   fontWeight: FontWeight.w600,
                 ),
@@ -146,6 +140,16 @@ class ProfileTabView extends StatelessWidget {
                     Get.toNamed(RoutesClass.getTransactionRoute());
                   },
                   image: Icons.money,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ProfileTile(
+                  text: 'Get more Money',
+                  onPressed: () {
+                    controller.getMoreMoney();
+                  },
+                  image: Icons.attach_money,
                 ),
                 const SizedBox(
                   height: 50,

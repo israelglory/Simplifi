@@ -18,7 +18,6 @@ class SimplifiInputTranserPinController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
 
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
@@ -52,7 +51,6 @@ class SimplifiInputTranserPinController extends GetxController {
   }
 
   void onButtonClick(String number) {
-    print('clicked');
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(
         TextPosition(offset: pinController.text.length));

@@ -45,14 +45,13 @@ class SimplifiProcessTransferController extends GetxController
   void onClose() {
     super.onClose();
     ezAnimation.dispose();
-    print('Disposed');
   }
 
   Future<void> sendMoney() async {
     try {
       final userinfo = await getAccountDetailsData();
       final rUid = userinfo['uid'];
-      print(rUid);
+
       await transfer.onInternalTransfer(
           sender: transaction.sender!,
           amount: transaction.amount!,

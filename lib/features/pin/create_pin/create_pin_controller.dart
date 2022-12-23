@@ -5,7 +5,6 @@ class CreatePinController extends GetxController {
   final UserAuth userAuth = UserAuth();
   TextEditingController pinController = TextEditingController();
   void onButtonClick(String number) {
-    print('clicked');
     pinController.text += number;
     pinController.selection = TextSelection.fromPosition(
         TextPosition(offset: pinController.text.length));

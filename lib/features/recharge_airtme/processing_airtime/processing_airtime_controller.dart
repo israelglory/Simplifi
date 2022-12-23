@@ -99,6 +99,5 @@ class ProcessAirtimeController extends GetxController {
   void onClose() {
     super.onClose();
     ezAnimation.dispose();
-    print('Dispos');
   }
 }

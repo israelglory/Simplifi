@@ -1,11 +1,7 @@
 import 'package:simplifi/components/dialogs/transfer_money_confirm.dart';
-import 'package:simplifi/models/banking/bank_detail_model.dart';
-import 'package:simplifi/models/banking/bank_list.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
-import 'package:simplifi/services/api_services/bank_detail_service.dart';
-import 'package:simplifi/services/api_services/bank_list_service.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
 
 class SimplifiTransferMoneyController extends GetxController {
@@ -67,7 +63,6 @@ class SimplifiTransferMoneyController extends GetxController {
   }
 
   void onTransferMoney() {
-    print(userData.accountBalance!);
     if (accName == 'Invalid Account') {
       Get.snackbar(
         "Error",
@@ -136,7 +131,7 @@ class SimplifiTransferMoneyController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
+
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
       avatar: userinfo['avatar'],
@@ -155,7 +150,6 @@ class SimplifiTransferMoneyController extends GetxController {
   void onClose() {
     super.onClose();
     clearAllText();
-    print('Disposed');
   }
 
   void clearAllText() {

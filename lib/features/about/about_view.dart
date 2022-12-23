@@ -1,15 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:simplifi/components/app_button.dart';
-import 'package:simplifi/components/app_height_sized_box.dart';
-import 'package:simplifi/components/app_text.dart';
 import 'package:simplifi/components/custom_avatar.dart';
-import 'package:simplifi/constants/app_colors.dart';
 import 'package:simplifi/features/about/about_controller.dart';
-import 'package:simplifi/features/simplifi/tabs/more/profile_tab_controller.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/utils/utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutView extends StatelessWidget {
   const AboutView({Key? key}) : super(key: key);

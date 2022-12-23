@@ -16,8 +16,6 @@ class InputPinController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
-
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
       avatar: userinfo['avatar'],

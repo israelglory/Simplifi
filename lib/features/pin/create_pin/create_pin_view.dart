@@ -42,9 +42,6 @@ class CreatePinView extends StatelessWidget {
                   cursorColor: AppColors.primaryColor,
                   onChanged: (val) {
                     if (val.length == 4) {
-                      print('Completed');
-                      print(val);
-                      print(controller.pinController.text);
                       controller.createPin(val);
                     }
                   },

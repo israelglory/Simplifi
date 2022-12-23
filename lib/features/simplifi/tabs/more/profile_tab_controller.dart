@@ -27,7 +27,6 @@ class ProfileTabController extends GetxController {
     image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       pickedImage = File(image.path);
-      print(pickedImage);
     }
     await uploadImage();
     await finalUserData();
@@ -73,7 +72,6 @@ class ProfileTabController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
 
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
@@ -87,6 +85,47 @@ class ProfileTabController extends GetxController {
       accountBalance: userinfo['accountBalance'],
     );
     update();
+  }
+
+  Future<void> getMoreMoney() async {
+    try {
+      if (userData.accountBalance! < 50000) {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update({
+          'accountBalance': 1000000,
+        });
+        Get.snackbar(
+          "Success",
+          'Account has been credited +1,000,000',
+          dismissDirection: DismissDirection.horizontal,
+          colorText: Colors.white,
+          backgroundColor: AppColors.primaryColor,
+          snackPosition: SnackPosition.TOP,
+        );
+      } else {
+        Get.snackbar(
+          "Error",
+          'You still have more than #50,000',
+          dismissDirection: DismissDirection.horizontal,
+          colorText: Colors.white,
+          backgroundColor: AppColors.appRed,
+          snackPosition: SnackPosition.TOP,
+        );
+      }
+      update();
+    } on FirebaseException catch (e) {
+      Get.snackbar(
+        "Error",
+        'Unable to add money',
+        dismissDirection: DismissDirection.horizontal,
+        colorText: Colors.white,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+      update();
+    }
   }
 
   void logOut() async {

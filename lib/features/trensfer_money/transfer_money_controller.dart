@@ -57,9 +57,13 @@ class TransferMoneyController extends GetxController {
   void bottomBankSelection() {
     Get.bottomSheet(
       Container(
-        padding: const EdgeInsets.only(left: 16.0, top: 16.0, bottom: 16.0),
-        color: Colors.white,
-        height: 400,
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          top: 36.0,
+          bottom: 16.0,
+        ),
+        //color: Colors.white,
+        height: 500,
         child: ListView.separated(
             itemBuilder: (context, index) {
               return InkWell(
@@ -82,6 +86,12 @@ class TransferMoneyController extends GetxController {
       ),
       enableDrag: true,
       backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50),
+          topRight: Radius.circular(50),
+        ),
+      ),
     );
   }
 
@@ -94,7 +104,6 @@ class TransferMoneyController extends GetxController {
       update();
     } on Exception catch (e) {
       accName = 'Invalid Account';
-      print(e);
       update();
     }
   }
@@ -163,7 +172,6 @@ class TransferMoneyController extends GetxController {
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],
       avatar: userinfo['avatar'],
@@ -185,7 +193,6 @@ class TransferMoneyController extends GetxController {
     bankName.clear();
     description.clear();
     amount.clear();
-    print('Disposed');
   }
 
   void clearAllText() {
@@ -233,7 +240,7 @@ class TransferMoneyController extends GetxController {
       update();
     } on Exception catch (e) {
       accName = 'Invalid Account';
-      print(e);
+
       update();
     }
   }

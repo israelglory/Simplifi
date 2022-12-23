@@ -84,11 +84,10 @@ class HomeView extends StatelessWidget {
                         AsyncSnapshot<QuerySnapshot> snapshot) {
                       if (snapshot.hasData) {
                         controller.transactionList = snapshot.data!.docs;
-                        print(controller.transactionList.length);
-                        //print(snapshot.data!.docs.first);
-                        if (controller.transactionList.length > 0) {
+
+                        if (controller.transactionList.isNotEmpty) {
                           return ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             padding: const EdgeInsets.all(0),
                             itemBuilder: (context, index) {
@@ -154,8 +153,7 @@ class BeneficiaryList extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
           controller.beneficiaryList = snapshot.data!.docs;
-          print(controller.beneficiaryList.length);
-          if (controller.beneficiaryList.length > 0) {
+          if (controller.beneficiaryList.isNotEmpty) {
             return ListView.separated(
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),

@@ -1,10 +1,22 @@
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/utils/utils.dart';
 
 class SendTransferTransaction {
+  String? date;
+  Timestamp? timestamp;
   final _firestore = FirebaseFirestore.instance;
   final _firebaseAuth = FirebaseAuth.instance;
+
+  ///When posting jobs/proposals we can pass the date and timestamp that have been formatted in the data that will be sent to the firebase
+  Future _getDate() async {
+    DateTime now = DateTime.now();
+    String _date = DateFormat('dd MMMM yy').format(now);
+    Timestamp _timestamp = Timestamp.now();
+    timestamp = _timestamp;
+    date = _date;
+  }
 
   Future<void> sendTransfer({
     required String sender,
@@ -15,6 +27,7 @@ class SendTransferTransaction {
     required String accountNumber,
     required String description,
   }) async {
+    await _getDate();
     final userinfo = await getUserData();
     var accountBalance = userinfo['accountBalance'];
     DateTime dateNow = DateTime.now();
@@ -37,6 +50,7 @@ class SendTransferTransaction {
         'description': description,
         'bankLogo': bankLogo,
         'bankCode': bankCode,
+        'timeStamp': timestamp,
         'transactionState': 'debit',
         'referenceNumber': 'Ref${dateNow.millisecond}',
       });
@@ -62,9 +76,7 @@ class SendTransferTransaction {
 
     if (accountBalance > debitAmount) {
       docRef.update({'accountBalance': newAcountBalnce});
-    } else {
-      print('Insufficient Balace');
-    }
+    } else {}
   }
 
   /// We can get user data through this function

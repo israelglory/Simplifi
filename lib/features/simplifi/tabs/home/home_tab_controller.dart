@@ -40,12 +40,12 @@ class HomeController extends GetxController {
         .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('transactions')
+        .orderBy('timeStamp', descending: true)
         .snapshots();
   }
 
   Future<void> finalUserData() async {
     final userinfo = await userAuth.getUserData();
-    print(userinfo);
 
     userData = UserModel(
       accountNumber: userinfo['accountNumber'],

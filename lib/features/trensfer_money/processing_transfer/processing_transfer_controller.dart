@@ -46,7 +46,6 @@ class ProcessTransferController extends GetxController
   void onClose() {
     super.onClose();
     ezAnimation.dispose();
-    print('Disposed');
   }
 
   Future<void> onAddBeneficiary() async {
