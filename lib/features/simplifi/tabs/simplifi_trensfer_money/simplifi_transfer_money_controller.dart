@@ -149,6 +149,7 @@ class SimplifiTransferMoneyController extends GetxController {
               ),
             );
             Get.delete<BottomNavController>();
+            Get.delete<SimplifiTransferMoneyController>();
             //Get.back();
             //clearAllText();
           },

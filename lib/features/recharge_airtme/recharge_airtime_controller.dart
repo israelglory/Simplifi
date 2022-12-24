@@ -1,4 +1,5 @@
 import 'package:simplifi/components/dialogs/airtime_confirm_dialog.dart';
+import 'package:simplifi/features/recharge_airtme/receipt/air_receipt_controller.dart';
 import 'package:simplifi/features/simplifi/bottom_nav_controller.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
@@ -103,6 +104,7 @@ class RechargeAirtimeController extends GetxController {
               ),
             );
             Get.delete<BottomNavController>();
+            Get.delete<RechargeAirtimeController>();
           },
           receipt: TransferTransactionModel(
             accountNumber: phoneNumber.text,

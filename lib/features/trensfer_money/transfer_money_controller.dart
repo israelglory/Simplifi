@@ -186,6 +186,7 @@ class TransferMoneyController extends GetxController {
               ),
             );
             Get.delete<BottomNavController>();
+            Get.delete<TransferMoneyController>();
             //Get.back();
             //clearAllText();
           },
