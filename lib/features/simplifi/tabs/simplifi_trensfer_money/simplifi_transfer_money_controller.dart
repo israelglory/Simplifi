@@ -1,4 +1,5 @@
 import 'package:simplifi/components/dialogs/transfer_money_confirm.dart';
+import 'package:simplifi/features/simplifi/bottom_nav_controller.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
@@ -68,7 +69,7 @@ class SimplifiTransferMoneyController extends GetxController {
         .doc(accountNumber.text);
 
     DocumentSnapshot snap = await docRef.get();
-    if (accName == 'Invalid Account') {
+    if (accName == 'Invalid Account' || accName == '') {
       Get.snackbar(
         "Error",
         'Check Account number or your internet connection',
@@ -97,7 +98,7 @@ class SimplifiTransferMoneyController extends GetxController {
         backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
-    } else if(!snap.exists){
+    } else if (!snap.exists) {
       Get.snackbar(
         "Error",
         'Input valid account number',
@@ -106,6 +107,18 @@ class SimplifiTransferMoneyController extends GetxController {
         backgroundColor: AppColors.appRed,
         snackPosition: SnackPosition.TOP,
       );
+    } else if (accountNumber.text.isEmpty ||
+        amount.text.isEmpty ||
+        description.text.isEmpty) {
+      Get.snackbar(
+        "Error",
+        'All fields must be filled',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+      update();
     } else {
       Get.defaultDialog(
         title: '',
@@ -124,7 +137,7 @@ class SimplifiTransferMoneyController extends GetxController {
             description: description.text,
           ),
           onPressed: () {
-            Get.toNamed(
+            Get.offAndToNamed(
               RoutesClass.getInputSimplifiTransferPinRoute(),
               arguments: TransferTransactionModel(
                 sender: '${userData.firstName} ${userData.lastName}',
@@ -135,6 +148,7 @@ class SimplifiTransferMoneyController extends GetxController {
                 description: description.text,
               ),
             );
+            Get.delete<BottomNavController>();
             //Get.back();
             //clearAllText();
           },

@@ -43,23 +43,27 @@ class SignUpView extends StatelessWidget {
                   const AppHeightSizedBox(height: 16),
                   AppFormTextField(
                     textEditingController: controller.firstNameController,
+                    textCapitalization: TextCapitalization.words,
                     formText: 'First Name',
                     hintText: 'Enter first name',
                     maxLines: 1,
                     borderWidth: 2,
                     borderColor: AppColors.transBlack,
+                    textInputAction: TextInputAction.next,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
                   ),
                   const AppHeightSizedBox(height: 16),
                   AppFormTextField(
                     textEditingController: controller.lastNameController,
+                    textCapitalization: TextCapitalization.words,
                     formText: 'Last Name',
                     hintText: 'Enter last name',
                     maxLines: 1,
                     borderWidth: 2,
                     borderColor: AppColors.transBlack,
                     fontSize: 15,
+                    textInputAction: TextInputAction.next,
                     fontWeight: FontWeight.w400,
                   ),
                   const AppHeightSizedBox(height: 16),
@@ -68,7 +72,9 @@ class SignUpView extends StatelessWidget {
                     formText: 'Email address',
                     hintText: 'johnDoe@example.com',
                     maxLines: 1,
+                    textInputType: TextInputType.emailAddress,
                     borderWidth: 2,
+                    textInputAction: TextInputAction.next,
                     borderColor: AppColors.transBlack,
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -78,10 +84,12 @@ class SignUpView extends StatelessWidget {
                     textEditingController: controller.userNameController,
                     formText: 'Username',
                     hintText: 'Enter username',
+                    textCapitalization: TextCapitalization.words,
                     maxLines: 1,
                     borderWidth: 2,
                     borderColor: AppColors.transBlack,
                     fontSize: 15,
+                    textInputAction: TextInputAction.next,
                     fontWeight: FontWeight.w400,
                   ),
                   const AppHeightSizedBox(height: 16),
@@ -89,6 +97,8 @@ class SignUpView extends StatelessWidget {
                     textEditingController: controller.passController,
                     formText: 'Password',
                     maxLines: 1,
+                    textInputAction: TextInputAction.next,
+                    textCapitalization: TextCapitalization.words,
                     obscureText: controller.show,
                     suffixIcon: controller.show == true
                         ? InkWell(
@@ -117,7 +127,9 @@ class SignUpView extends StatelessWidget {
                     textEditingController: controller.confirmPassController,
                     formText: 'Confirm password',
                     maxLines: 1,
+                    textInputAction: TextInputAction.done,
                     obscureText: controller.show,
+                    textCapitalization: TextCapitalization.words,
                     suffixIcon: controller.show == true
                         ? InkWell(
                             onTap: () {
@@ -219,7 +231,7 @@ class SignUpView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const AppText(
-                        'Doesn\'t Have An Account?',
+                        'Have An Account?',
                         size: 15,
                         fontWeight: FontWeight.w500,
                       ),

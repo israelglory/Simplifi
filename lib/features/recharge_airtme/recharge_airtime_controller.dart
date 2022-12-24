@@ -1,4 +1,5 @@
 import 'package:simplifi/components/dialogs/airtime_confirm_dialog.dart';
+import 'package:simplifi/features/simplifi/bottom_nav_controller.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/routes/exports.dart';
 
@@ -65,31 +66,52 @@ class RechargeAirtimeController extends GetxController {
   }
 
   void onRechargeAirtime() {
-    Get.defaultDialog(
-      title: '',
-      titlePadding: const EdgeInsets.all(0.0),
-      contentPadding: const EdgeInsets.only(
-        left: 20.0,
-        right: 20.0,
-      ),
-      content: RechargeAirtimeDialog(
-        onPressed: () {
-          Get.toNamed(
-            RoutesClass.getInputAirtimePinRoute(),
-            arguments: TransferTransactionModel(
-              accountNumber: phoneNumber.text,
-              amount: int.parse(amount.text),
-              bankName: selectedNetwork,
-            ),
-          );
-        },
-        receipt: TransferTransactionModel(
-          accountNumber: phoneNumber.text,
-          amount: int.parse(amount.text),
-          bankName: selectedNetwork,
+    if (phoneNumber.text.isEmpty || amount.text.isEmpty) {
+      Get.snackbar(
+        "Error",
+        'All fields must be filled',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+    } else if (phoneNumber.text.length < 11 || phoneNumber.text.length > 11) {
+      Get.snackbar(
+        "Error",
+        'Invalid phone number',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+    } else {
+      Get.defaultDialog(
+        title: '',
+        titlePadding: const EdgeInsets.all(0.0),
+        contentPadding: const EdgeInsets.only(
+          left: 20.0,
+          right: 20.0,
         ),
-      ),
-    );
+        content: RechargeAirtimeDialog(
+          onPressed: () {
+            Get.offAndToNamed(
+              RoutesClass.getInputAirtimePinRoute(),
+              arguments: TransferTransactionModel(
+                accountNumber: phoneNumber.text,
+                amount: int.parse(amount.text),
+                bankName: selectedNetwork,
+              ),
+            );
+            Get.delete<BottomNavController>();
+          },
+          receipt: TransferTransactionModel(
+            accountNumber: phoneNumber.text,
+            amount: int.parse(amount.text),
+            bankName: selectedNetwork,
+          ),
+        ),
+      );
+    }
   }
 
   Stream<QuerySnapshot> getBeneficiaryFireStore() {

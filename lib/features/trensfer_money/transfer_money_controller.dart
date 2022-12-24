@@ -1,4 +1,5 @@
 import 'package:simplifi/components/dialogs/transfer_money_confirm.dart';
+import 'package:simplifi/features/simplifi/bottom_nav_controller.dart';
 import 'package:simplifi/models/banking/bank_detail_model.dart';
 import 'package:simplifi/models/banking/bank_list.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
@@ -111,7 +112,7 @@ class TransferMoneyController extends GetxController {
   void onTransferMoney() async {
     final userinfo = await userAuth.getUserData();
     final accBalance = userinfo['accountBalance'];
-    final inputedAmm = int.parse(amount.text);
+    //final inputedAmm = ;
     if (accName == 'Invalid Account') {
       Get.snackbar(
         "Error",
@@ -122,10 +123,32 @@ class TransferMoneyController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       update();
-    } else if (accBalance <= inputedAmm) {
+    } else if (accountNumber.text.isEmpty ||
+        amount.text.isEmpty ||
+        description.text.isEmpty) {
+      Get.snackbar(
+        "Error",
+        'All fields must be filled',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+      update();
+    } else if (accBalance <= int.parse(amount.text)) {
       Get.snackbar(
         "Error",
         'Insufficient balance',
+        colorText: Colors.white,
+        dismissDirection: DismissDirection.horizontal,
+        backgroundColor: AppColors.appRed,
+        snackPosition: SnackPosition.TOP,
+      );
+      update();
+    } else if (accName == '') {
+      Get.snackbar(
+        "Error",
+        'Invalid Account number',
         colorText: Colors.white,
         dismissDirection: DismissDirection.horizontal,
         backgroundColor: AppColors.appRed,
@@ -150,7 +173,7 @@ class TransferMoneyController extends GetxController {
             description: description.text,
           ),
           onPressed: () {
-            Get.toNamed(
+            Get.offAndToNamed(
               RoutesClass.getInputTransferPinRoute(),
               arguments: TransferTransactionModel(
                 sender: '${userData.firstName} ${userData.lastName}',
@@ -162,6 +185,7 @@ class TransferMoneyController extends GetxController {
                 bankCode: selectedBank.code,
               ),
             );
+            Get.delete<BottomNavController>();
             //Get.back();
             //clearAllText();
           },
