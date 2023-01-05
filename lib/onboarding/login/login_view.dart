@@ -104,7 +104,7 @@ class LoginView extends StatelessWidget {
                     child: AppButton(
                       elevation: 0,
                       width: double.infinity,
-                      padding: const EdgeInsets.all(12.0),
+                      //padding: const EdgeInsets.all(20.0),
                       radius: 8,
                       onPressed: () {
                         controller.login();
@@ -112,14 +112,20 @@ class LoginView extends StatelessWidget {
                       color: AppColors.primaryColor,
                       child: Visibility(
                         visible: !controller.inProgress,
-                        replacement: const CircularProgressIndicator(
-                          color: Colors.white,
+                        replacement: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
                         ),
-                        child: const AppText(
-                          'Login',
-                          color: Colors.white,
-                          size: 16,
-                          fontWeight: FontWeight.w500,
+                        child: const Padding(
+                          padding: EdgeInsets.all(17.0),
+                          child: AppText(
+                            'Login',
+                            color: Colors.white,
+                            size: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:simplifi/routes/exports.dart';
 
 class IntroPageController extends GetxController {
   late PageController pageController;
+  int index = 0;
   @override
   void onInit() {
     super.onInit();
@@ -9,13 +10,15 @@ class IntroPageController extends GetxController {
     update();
   }
 
-  void pageNavigator(int index) {
-    if (pageController.hasClients) {
+  void pageNavigator() {
+    if (pageController.hasClients && index < 2) {
+      index = index + 1;
       pageController.animateToPage(
         index,
         duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
+        curve: Curves.fastOutSlowIn,
       );
+      update();
     }
   }
 
