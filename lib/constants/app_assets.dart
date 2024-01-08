@@ -7,4 +7,5 @@ class AppAssets {
   static const String fingerPrint = 'assets/icons/fingerprint.svg';
   static const String transferConfirm = 'assets/icons/confirm.svg';
   static const String backSpace = 'assets/icons/backspace.svg';
+  //static const String fingerprint = 'assets/icons/fingerprint.svg';
 }

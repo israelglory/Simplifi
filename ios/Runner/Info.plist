@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Please authenticate to use the app</string>
 </dict>
 </plist>

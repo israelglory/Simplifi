@@ -1,7 +1,10 @@
+import 'package:local_auth/local_auth.dart';
 import 'package:simplifi/models/banking/transaction/transfer_transaction_model.dart';
 import 'package:simplifi/models/user/user_model.dart';
 import 'package:simplifi/routes/exports.dart';
 import 'package:simplifi/services/user_service/user_auth.dart';
+
+import 'package:local_auth/error_codes.dart' as local_auth_error;
 
 class InputAirtimePinController extends GetxController {
   TextEditingController pinController = TextEditingController();
@@ -14,6 +17,7 @@ class InputAirtimePinController extends GetxController {
   void onInit() async {
     await finalUserData();
     update();
+    await authenticateUser();
     super.onInit();
   }
 
@@ -31,6 +35,43 @@ class InputAirtimePinController extends GetxController {
       userName: userinfo['userName'],
     );
     update();
+  }
+
+  final _localAuthentication = LocalAuthentication();
+  bool _isUserAuthorized = false;
+
+  Future<void> authenticateUser() async {
+    bool isAuthorized = false;
+    try {
+      isAuthorized = await _localAuthentication.authenticate(
+        localizedReason: "Authenticate",
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: true,
+        ),
+      );
+    } on PlatformException catch (exception) {
+      if (exception.code == local_auth_error.notAvailable ||
+          exception.code == local_auth_error.passcodeNotSet ||
+          exception.code == local_auth_error.notEnrolled) {
+        Get.snackbar(
+          "Error",
+          'No Biometric Found. Please check your settings and set FaceID or TouchID',
+          colorText: Colors.white,
+          dismissDirection: DismissDirection.horizontal,
+          backgroundColor: AppColors.appRed,
+          snackPosition: SnackPosition.TOP,
+        );
+      }
+    }
+
+    //if (!mounted) return;
+
+    _isUserAuthorized = isAuthorized;
+    if (_isUserAuthorized) {
+      Get.offAndToNamed(RoutesClass.getProcessAirtimeRoute(),
+          arguments: transaction);
+    }
   }
 
   void onCompleted(String pin) {

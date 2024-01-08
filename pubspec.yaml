@@ -38,7 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   
   get: ^4.6.5
-  google_fonts: ^3.0.1
+  google_fonts: ^6.1.0
   
   flutter_svg: ^1.1.5
   pin_code_fields: ^7.4.0
@@ -60,6 +60,7 @@ dependencies:
   dio: ^4.0.6
   jiffy: ^5.0.0
   grouped_list: ^5.1.2
+  local_auth: ^2.1.7
   
 
 dev_dependencies:

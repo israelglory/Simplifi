@@ -157,10 +157,19 @@ class InputTransferPinView extends StatelessWidget {
                               },
                               digit: '0',
                             ),
-                            BackSpaceButton(
-                              onPressed: () {
-                                controller.onBackspace();
-                              },
+                            Visibility(
+                              visible:
+                                  !(controller.pinController.text.length < 1),
+                              replacement: FingePrintButton(
+                                onPressed: () async {
+                                  await controller.authenticateUser();
+                                },
+                              ),
+                              child: BackSpaceButton(
+                                onPressed: () {
+                                  controller.onBackspace();
+                                },
+                              ),
                             ),
                           ],
                         ),

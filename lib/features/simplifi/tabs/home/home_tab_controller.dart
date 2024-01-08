@@ -10,7 +10,7 @@ class HomeController extends GetxController {
 
   bool show = true;
   final noSimbolInUSFormat =
-      NumberFormat.currency(locale: "en_US", symbol: "#");
+      NumberFormat.currency(locale: "en_US", symbol: "₦");
   List<QueryDocumentSnapshot> transactionList = [];
   List<TransferTransactionModel> processedTransactionList = [];
   int limit = 20;

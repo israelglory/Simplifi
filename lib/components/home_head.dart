@@ -100,7 +100,7 @@ class HomeHeader extends StatelessWidget {
                 ),
                 const AppHeightSizedBox(height: 0),
                 AppText(
-                  show == true ? accountBalance : accountNumber,
+                  show == true ? accountBalance : "₦ $accountNumber",
                   size: 30,
                   color: Colors.white,
                   fontWeight: FontWeight.w600,

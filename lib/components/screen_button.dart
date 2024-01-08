@@ -69,3 +69,28 @@ class BackSpaceButton extends StatelessWidget {
     );
   }
 }
+
+class FingePrintButton extends StatelessWidget {
+  final Function() onPressed;
+  const FingePrintButton({Key? key, required this.onPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(15.0),
+        //color: Colors.grey.shade200,
+      ),
+      margin: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+      height: MediaQuery.of(context).size.height * 0.1 * 0.9,
+      child: InkWell(
+          onTap: onPressed,
+          child: SvgPicture.asset(
+            AppAssets.fingerPrint,
+            height: 50,
+            fit: BoxFit.none,
+            width: 50,
+          )),
+    );
+  }
+}
